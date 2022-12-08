@@ -1,6 +1,6 @@
 import axios from 'axios'
 import apiConst from '../config/constants.js'
-import configData from '../config/config.js'
+import { getHeader } from '../utils/helpers.js'
 
 export const addToken = async (params) => {
 
@@ -18,7 +18,7 @@ export const addToken = async (params) => {
             resolve(response.data)
         })
         .catch(function(error) {
-            resolve(error)
+            reject(error)
         })
     })
 }

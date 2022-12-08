@@ -16,12 +16,12 @@ export const registerUser = async(email) => {
             headers:headers
         })
             .then((response) => {
-                console.log('=======================Register Responce=======================')
+                console.log('=======================Register Response=======================')
                 console.log(response.data)
                 resolve(response.data)
             })
             .catch((error) => {
-                console.log(error)
+                console.log("error", error)
                 reject(error)
             })
     })

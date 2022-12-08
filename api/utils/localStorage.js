@@ -1,6 +1,6 @@
 async function saveAuthData(key, value) {
     try{
-        await localStorage.setItem(
+        localStorage.setItem(
             key,
             value
         )
@@ -11,7 +11,7 @@ async function saveAuthData(key, value) {
 
 async function retrieveAuthData(key) {
     try{
-        await localStorage.getItem(key)
+        localStorage.getItem(key)
     } catch(error){
         console.log("error", error)
     }
@@ -19,7 +19,7 @@ async function retrieveAuthData(key) {
 
 async function clearAuthData() {
     try{
-        await localStorage.clear()
+        localStorage.clear()
     } catch(error){
         console.log("error", error)
     }
@@ -27,7 +27,7 @@ async function clearAuthData() {
 
 async function removeAuthData(key) {
     try{
-        await localStorage.removeItem(key)
+        localStorage.removeItem(key)
     } catch(error){
         console.log("error", error)
     }
