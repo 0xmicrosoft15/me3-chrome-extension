@@ -20,4 +20,4 @@ import apiConst from '../config/constants.js'
             resolve(error)
         })
     })
- }
+ } 
