@@ -9,7 +9,7 @@ const headers = {
 }
 
 
-export const registerUser = async(email) => {
+export async function registerUser(email) {
 
     return new Promise(async function (resolve,reject){
         axios.post(apiConst.BASE_URL + apiConst.API_REGISTER + '?faceId=' + email, {}, {

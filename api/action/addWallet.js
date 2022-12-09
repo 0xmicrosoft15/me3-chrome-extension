@@ -2,7 +2,7 @@ import { getHeader, getRequestParams } from "../utils/helpers.js"
 import axios from 'axios'
 import apiConst from '../config/constants.js'
 
-export const addwallet = async(params) => {
+export async function addwallet(params) {
 
     params = await getRequestParams(params)
     const header = await getHeader()
