@@ -29,15 +29,6 @@ const Bottom = styled.div`
     border: 1px solid
 `
 
-const Wrapper = styled.div`
-    height: 100%;
-    margin-left: 50px;
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
-    gap: 10px
-`
-
 const Progress = styled.h3`
 `
 
@@ -46,15 +37,17 @@ const Message = styled.h2`
 `
 
 const Download = styled.h3`
-    
+    margin-top: 50px
 `
 
 const Footer = styled.div`
-    height: 50px;
+    height: 100px;
     display: flex;
     align-items:center;
     justify-content: center;
-    flex-direction: row
+    flex-direction: row;
+    border: 1px solid;
+
 `
 
 const Logo = styled.div`
@@ -70,30 +63,28 @@ const Text = styled.h1`
 const RetWallet = () => {
   return (
     <Container>
-        {/* <Wrapper>
-        
-        <Progress>
-            Almost there
-        </Progress>
-        <Message>
-            We're retrieving your multichain wallet
-        </Message>
-        <Download>
-            In the meantime, download the Me3 App on Google Playstore to use your wallet on your phone
-        </Download>
-        <Footer>
-            <Logo>Logo</Logo>
-            <Text>
-                Get Me3 on Google Playstore
-            </Text>
-        </Footer>
-        </Wrapper> */}
         <Top>
             <Title>
                 Me3
             </Title>
         </Top>
-        <Bottom>Bottom</Bottom>
+        <Bottom>
+            <Progress>
+                Almost there
+            </Progress>
+            <Message>
+                We're retrieving your multichain wallet
+            </Message>
+            <Download>
+                In the meantime, download the Me3 App on Google Playstore to use your wallet on your phone
+            </Download>
+        </Bottom>
+        <Footer>
+                <Logo>Logo</Logo>
+                <Text>
+                    Get Me3 on Google Playstore
+                </Text>
+            </Footer>
     </Container>
   )
 }

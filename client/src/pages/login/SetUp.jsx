@@ -26,15 +26,7 @@ const Bottom = styled.div`
     flex: 4;
     margin-left: 20%;
     flex-direction: column;
-    border: 1px solid
-`
-
-const Wrap = styled.div`
-    height: 100%;
-    margin-left: 10px;
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
+    border: 1px solid;
     gap: 20px
 `
 
@@ -42,24 +34,27 @@ const Setup = styled.h2`
 
 `
 const Safe = styled.h3`
-
+    font-size: 15px;
+    text-align: flex-end;
 `
 const Wrapper = styled.div`
     display: flex;
     justify-content: flex-end;
     flex-direction: column;
-    gap: 20px
+    gap: 5px
 `
 const Prompt = styled.h3`
     font-weight: 100;
     font-size: 10px
 `
 const Input = styled.input`
-    padding: 10px
+    padding: 20px;
+    right: 10px
 `
 const Button = styled.button`
     cursor: pointer;
-    padding: 10px
+    padding: 10px;
+    top: 20px
 `
 
 const SetUp = () => {
@@ -67,11 +62,22 @@ const SetUp = () => {
     <Container>
         {/* <Wrap>
             
+            
+        </Wrap> */}
+        <Top>
+            <Title>
+                Me3
+            </Title>
+        </Top>
+        <Bottom>
             <Setup>
                 Set up your Wallet
             </Setup>
             <Safe>
-                Keep your password safe 
+                Keep your password safe!
+                Your password is for this device only.
+                Access your Me3 wallet on other devices 
+                with your Google account.
             </Safe>
             <Wrapper>
                 <Prompt>Enter a strong password</Prompt>
@@ -84,13 +90,7 @@ const SetUp = () => {
             <Button>
                 Continue
             </Button>
-        </Wrap> */}
-        <Top>
-            <Title>
-                Me3
-            </Title>
-        </Top>
-        <Bottom>Bottom</Bottom>
+        </Bottom>
     </Container>
   )
 }

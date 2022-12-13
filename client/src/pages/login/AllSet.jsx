@@ -27,7 +27,25 @@ const Bottom = styled.div`
     flex: 4;
     margin-left: 20%;
     flex-direction: column;
+    border: 1px solid;
+    align-items: center;
+    justify-content: center
+`
+const Logo = styled.div`
+    radius: 50px;
     border: 1px solid
+`
+const Success = styled.h1`
+
+`
+const Message = styled.h3`
+
+`
+
+const Button = styled.button`
+    cursor: pointer;
+    padding: 20px 50px;
+    margin-top: 150px
 `
 
 const AllSet = () => {
@@ -38,7 +56,12 @@ const AllSet = () => {
                 Me3
             </Title>
         </Top>
-        <Bottom>Bottom</Bottom>
+        <Bottom>
+            <Logo>Tick</Logo>
+            <Success>You're all set!</Success>
+            <Message>Manage your tokens on multiple chains with your new Me3 wallet.</Message>
+            <Button>Continue</Button>
+        </Bottom>
     </Container>
   )
 }

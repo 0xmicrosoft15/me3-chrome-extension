@@ -1,9 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import GenWallet from './pages/login/GenWallet.jsx'
-import RetWallet from './pages/login/RetWallet.jsx'
-import SetUp from './pages/login/SetUp.jsx'
-import SignIn from './pages/login/SignIn.jsx'
+import {AllSet} from "./pages/login"
 
 const Wrapper = styled.div`
     display: flex;
@@ -23,7 +20,7 @@ function App() {
   return (
     <Wrapper>
     <Container>
-      <SetUp />
+      <AllSet />
     </Container>
     </Wrapper>
   );

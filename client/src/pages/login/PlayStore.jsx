@@ -14,31 +14,72 @@ const Top = styled.div`
     flex: 1;
     margin-left: 20%;
     border: 1px solid;
-    position: relative
 `
 
-const Title = styled.h1`
-    position: absolute;
-    bottom: 0
-`
-
-const Bottom = styled.div`
+const TopHalf = styled.div`
     display: flex;
-    flex: 4;
-    margin-left: 20%;
+    flex: 1
+`
+const Title = styled.h1`
+`
+const BottomHalf = styled.div`
+    display: flex;
+    flex:1
+`
+
+
+
+const Progress = styled.h3`
+`
+
+const Footer = styled.div`
+    display: flex;
+    flex: 3;
+    height: 300px;
+    display: flex;
+    align-items:center;
+    justify-content: center;
     flex-direction: column;
-    border: 1px solid
+    border: 1px solid;
+    gap: 50px
+
+`
+
+const Logo = styled.div`
+    border: 1px solid;
+    width: 100px;
+    height: 100px
+`
+
+const Text = styled.h1`
+    font-weight: 500;
+    font-size: 10px
 `
 
 const PlayStore = () => {
   return (
     <Container>
-        <Top>
-            <Title>
-                Me3
-            </Title>
+       <Top>
+            <TopHalf>
+                <Title>
+                    Me3
+                </Title>
+            </TopHalf>
+            <BottomHalf>
+                <Progress>
+                    Almost there!
+                </Progress>
+            </BottomHalf>
         </Top>
-        <Bottom>Bottom</Bottom>
+        <Footer>
+            <Text>
+                Get Me3 on Google Playstore
+            </Text>
+            <Text>
+                Scan this QR with your phone to download the App
+            </Text>
+            <Logo>Logo</Logo>
+        </Footer>
     </Container>
   )
 }
