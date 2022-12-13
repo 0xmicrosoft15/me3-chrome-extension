@@ -1,5 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import GenWallet from './pages/login/GenWallet.jsx'
+import RetWallet from './pages/login/RetWallet.jsx'
+import SetUp from './pages/login/SetUp.jsx'
 import SignIn from './pages/login/SignIn.jsx'
 
 const Wrapper = styled.div`
@@ -20,7 +23,7 @@ function App() {
   return (
     <Wrapper>
     <Container>
-      <SignIn/>
+      <SetUp />
     </Container>
     </Wrapper>
   );
