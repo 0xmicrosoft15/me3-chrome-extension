@@ -13,8 +13,6 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    
-
 `
 
 const Button = styled.button`

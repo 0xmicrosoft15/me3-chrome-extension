@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Navbar, Topbar } from './components'
 import {AllSet} from "./pages/login"
+import { Main } from './pages/wallet'
 
 const Wrapper = styled.div`
     display: flex;
@@ -21,7 +22,7 @@ function App() {
   return (
     <Wrapper>
     <Container>
-      <Navbar />
+      <Main/>
     </Container>
     </Wrapper>
   );
