@@ -19,6 +19,13 @@ const Wrapper = styled.div`
 const Logo = styled.h1`
     margin-right: 30px
 `
+const MedContainer = styled.div`
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    flex-direction:row;
+    margin-left: 30px;
+`
 
 const Wrap = styled.div`
     display: flex;
@@ -26,7 +33,7 @@ const Wrap = styled.div`
     justify-content: center;
     flex-direction: row;
     gap: 10px;
-    margin-right: 30px;
+    margin-right: 20px;
 `
 const ChainLogo = styled.img`
     border: 1px solid;
@@ -41,11 +48,13 @@ const Navbar = () => {
     <Container>
         <Wrapper>
             <Logo>Me3</Logo>
-            <Wrap>
-                <ChainLogo/>
-                <ChainName>Polygon</ChainName>
-            </Wrap>
-            <MenuIcon/>
+            <MedContainer>
+                <Wrap>
+                    <ChainLogo/>
+                    <ChainName>Polygon</ChainName>
+                </Wrap>
+                <MenuIcon/>
+            </MedContainer>
         </Wrapper>
     </Container>
   )

@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Navbar, Topbar } from '../../components'
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const Container = styled.div`
     height: 100%;
@@ -22,34 +24,29 @@ const Wrapper = styled.div`
     margin-left: 13px;
     margin-top: 10px;
 `
-const SmallWrapper = styled.div`
-    height: 80%;
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    flex: 2;
-    gap: 5px
-`
 
 const SmallContainer = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: row;
     border: 1px solid;
+    gap: 10px
 `
 
 const Connect = styled.h3`
-    font-weight: 200
+    font-weight: 500;
+    font-size: 10px
 `
 
 const Wallet = styled.h2`
-    font-weight: 500
+    font-weight: 500;
+    font-size: 12px
 `
 
 const Text = styled.h3`
-    font-weight: 200
+    font-weight: 300;
+    font-size: 8px
 `
 
 const MedWrapper = styled.div`
@@ -58,7 +55,6 @@ const MedWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    flex: 3;
     gap: 5px;
 `
 const MedContainer = styled.div`
@@ -68,15 +64,17 @@ const MedContainer = styled.div`
     flex-direction: row;
     border: 1px solid;
     padding: 5px;
-    width: 100%
+    width: 100%;
+    gap: 200px
 `
 
 const Buttons = styled.button`
-    cursor: pointer
+    cursor: pointer;
+    padding: 0px 10px
 `
 
 const Bottom = styled.div`
-    flex:1;
+    flex:2;
     border: 1px solid
 `
 
@@ -88,27 +86,30 @@ const Main = () => {
         <Topbar/>
         <Top>
             <Wrapper>
-                <SmallWrapper>
-                    <SmallContainer>small</SmallContainer>
-                    <SmallContainer>small</SmallContainer>
-                    <SmallContainer>small</SmallContainer>
-                </SmallWrapper>
                 <MedWrapper>
-                    <MedContainer>Med</MedContainer>
-                    <MedContainer>Med</MedContainer>
-                    <MedContainer>Med</MedContainer>
+                    <MedContainer>
+                        <Wallet>Wallet 1</Wallet>
+                        <Connect>Not connected</Connect>
+                    </MedContainer>
+                    <MedContainer>
+                        <Text>qweefwefergerfsefrfgerfrfewf</Text>
+                        <ContentCopyIcon/>
+                    </MedContainer>
+                    <MedContainer>
+                        <Buttons>Deposit</Buttons>
+                        <Buttons>Send</Buttons>
+                    </MedContainer>
                 </MedWrapper>
             </Wrapper>
-            
-            {/* <SmallContainer>
-                <Connect>Not connected</Connect>
-            </SmallContainer>
-            <SmallContainer>
-                <Wallet>Wallet 1</Wallet>
-            </SmallContainer>
-            <Text>Deposit tokens into your wallet</Text> */}
         </Top>
-        <Bottom>Bottom</Bottom>
+        <Bottom>
+            <Wrapper>
+                <MedContainer>
+                    <Buttons>My Holdings</Buttons>
+                    <Buttons>NFTs</Buttons>
+                </MedContainer>
+            </Wrapper>
+        </Bottom>
         <Navbar/>
     </Container>
   )
