@@ -6,6 +6,7 @@ import Copy from "../../assets/Copy.svg"
 import DownArrow from "../../assets/DownArrow.svg"
 import SendArrow from "../../assets/SendArrow.svg"
 import Empty from './Empty.jsx'
+import Chain from './Chain.jsx'
 
 const Container = styled.div`
     height: 100%;
@@ -206,7 +207,7 @@ const Main = () => {
                     <HoldingsContainer>My NFTs</HoldingsContainer>
                 </HoldingNftWrapper>
                 <AssetsWrapper>
-                    <Empty/>
+                    <Chain/>
                 </AssetsWrapper>
             </BottomWrapper>
         </Bottom>
