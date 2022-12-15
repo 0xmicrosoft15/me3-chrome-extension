@@ -1,6 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import MenuIcon from '@mui/icons-material/Menu';
+import Menu from "../assets/Menu.png"
+import Me3 from "../assets/logo_small.png"
+import Polygon from "../assets/Polygon.svg"
+import Arrow from "../assets/ArrowDown.svg"
+
+
 
 const Container = styled.div`
     display: flex;
@@ -8,23 +13,24 @@ const Container = styled.div`
     justify-content: center;
     flex-direction: row;
     height: 10%;
+    background-color: #160E25
 `
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: row;
 `
 
-const Logo = styled.h1`
-    margin-right: 30px
+const Logo = styled.img`
+    
 `
 const MedContainer = styled.div`
     display: flex;
     align-items:center;
     justify-content: center;
     flex-direction:row;
-    margin-left: 30px;
+    margin-left: 70px;
+
 `
 
 const Wrap = styled.div`
@@ -32,28 +38,47 @@ const Wrap = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    gap: 10px;
-    margin-right: 20px;
+    gap: 4px;
+    margin-right: 10px;
+    width: 118px;
+    height: 36px;
+    padding: 2px 6px 2px 2px;
+    background-color: rgba(247, 247, 247, 0.1);
+    border-radius: 8px;
 `
 const ChainLogo = styled.img`
-    border: 1px solid;
-    padding: 20px
+    width: 30px;
+    height: 30px;
 `
 
-const ChainName = styled.h1`
+const ChainName = styled.div`
+    width: 50px;
+    height: 18px;
+    color: white    
+`
+const ArrowDown = styled.img`
+    cursor: pointer;
+    margin-left: 10px
 `
 
+const MenuLogo = styled.img`
+    width: 18px;
+    height: 16px;
+    cursor: pointer
+`
+ 
 const Navbar = () => {
   return (
     <Container>
         <Wrapper>
-            <Logo>Me3</Logo>
+            <Logo src={Me3} alt=""/>
             <MedContainer>
                 <Wrap>
-                    <ChainLogo/>
+                    <ChainLogo src={Polygon} alt=""/>
                     <ChainName>Polygon</ChainName>
+                    <ArrowDown src={Arrow} alt=""/>
                 </Wrap>
-                <MenuIcon/>
+                <MenuLogo src={Menu} alt=""/>
             </MedContainer>
         </Wrapper>
     </Container>
