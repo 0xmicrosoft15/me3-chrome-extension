@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Navbar, Topbar } from './components'
 import {AllSet} from "./pages/login"
-import { Main, Empty } from './pages/wallet'
+import { Main, Empty,Swap } from './pages/wallet'
 
 const Wrapper = styled.div`
     display: flex;
@@ -14,14 +14,15 @@ const Container = styled.div`
     height: 600px;
     display: flex;
     align-items: center;
-    justify-content: center
+    justify-content: center;
+    border: 1px solid
 `
 
 function App() {
   return (
     <Wrapper>
     <Container>
-      <Main/>
+      <Swap/>
     </Container>
     </Wrapper>
   );
