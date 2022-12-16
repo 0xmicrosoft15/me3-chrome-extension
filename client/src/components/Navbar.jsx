@@ -11,6 +11,7 @@ const Container = styled.div`
     justify-content: center;
     flex-direction: row;
     height: 10%;
+    width: 100%;
     background-color: #FFFFFF
 `
 const Wrapper = styled.div`

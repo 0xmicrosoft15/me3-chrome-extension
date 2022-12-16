@@ -13,12 +13,14 @@ const Container = styled.div`
     justify-content: center;
     flex-direction: row;
     height: 10%;
-    background-color: #160E25
+    background-color: #160E25;
+    width: 100%
 `
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
     flex-direction: row;
+    margin-top: 10px
 `
 
 const Logo = styled.img`

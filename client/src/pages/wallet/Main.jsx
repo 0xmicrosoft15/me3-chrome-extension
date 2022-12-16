@@ -28,7 +28,7 @@ const TopWrapper = styled.div`
     margin-left: 20px;
     margin-top: 10px;
     background-color: rgba(255, 255, 255, 0.03);
-    border-radius: 8px
+    border-radius; 8px
 `
 
 
@@ -95,7 +95,7 @@ const ButtonWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content:center;
-    gap: 15px
+    gap: 15px;
 `
 
 const Down = styled.img`
@@ -132,7 +132,8 @@ const BottomWrapper = styled.div`
     margin-left: 5px;
     margin-top: 5px;
     background-color: rgba(255, 255, 255, 0.03);
-    align-items: center
+    align-items: center;
+    position: relative;
 `
 
 const HoldingNftWrapper = styled.div`
@@ -140,8 +141,10 @@ const HoldingNftWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-    flex:1
+    position: absolute
+    flex:1;
+    top: 20px;
+    gap: 20px
 `
 
 const HoldingsContainer = styled.div`
@@ -168,7 +171,6 @@ const AssetsWrapper = styled.div`
 const Main = () => {
   return (
     <Container>
-        <Topbar/>
         <Top>
             <TopWrapper>
                 <MedWrapper>
@@ -209,9 +211,10 @@ const Main = () => {
                 <AssetsWrapper>
                     <Chain/>
                 </AssetsWrapper>
+                {/* <Empty /> */}
             </BottomWrapper>
         </Bottom>
-        <Navbar/>
+    
     </Container>
   )
 }
