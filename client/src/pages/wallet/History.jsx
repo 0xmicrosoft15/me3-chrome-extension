@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Transaction from './Transaction.jsx'
+import Transactions from './Transactions.jsx'
 
 const Container = styled.div`
     height: 100%;
@@ -24,8 +25,7 @@ const Body = styled.div`
     flex-direction: column;
     gap: 20px;
     width: 95%; 
-    height: 90%;
-    position: relative;
+    height: 90%; 
 `
 
 const History = () => {
@@ -33,7 +33,8 @@ const History = () => {
     <Container>
         <Wrapper>
             <Body>
-                <Transaction />
+                <Transactions />
+                <Transactions/>
             </Body>
         </Wrapper>
     </Container>

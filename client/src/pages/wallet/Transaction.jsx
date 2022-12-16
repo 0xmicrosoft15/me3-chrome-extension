@@ -10,12 +10,12 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    position: absolute;
     border: 1px solid;
     border-radius: 8px;
     top: 10px;
     background-color: white;
-    border: none
+    border: none;
+    margin-left: 8px
 `
 
 const Wrapper = styled.div`
