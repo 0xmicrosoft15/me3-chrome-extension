@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Transaction from './Transaction.jsx'
 
 const Container = styled.div`
     height: 100%;
@@ -24,14 +25,16 @@ const Body = styled.div`
     gap: 20px;
     width: 95%; 
     height: 90%;
-    border: 1px solid
+    position: relative;
 `
 
 const History = () => {
   return (
     <Container>
         <Wrapper>
-            <Body></Body>
+            <Body>
+                <Transaction />
+            </Body>
         </Wrapper>
     </Container>
   )
