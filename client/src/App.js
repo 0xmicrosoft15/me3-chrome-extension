@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Navbar, Topbar } from './components'
 import {AllSet} from "./pages/login"
-import { Main, Empty,Swap, History } from './pages/wallet'
+import { Main, Empty,Swap, History, Settings } from './pages/wallet'
 
 const Wrapper = styled.div`
     display: flex;
@@ -24,9 +24,7 @@ function App() {
   return (
     <Wrapper>
     <Container>
-      <Topbar/>
-        <History/>
-      <Navbar/>
+      <Settings/>
     </Container>
     </Wrapper>
   );
