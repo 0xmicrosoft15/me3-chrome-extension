@@ -54,7 +54,7 @@ const Middle = styled.div`
     width: 100%;
     height: 50%;
     gap: 20px;
-    margin-bottom: 150px
+    margin-bottom: 130px
 `
 
 const MiddleText = styled.div`
