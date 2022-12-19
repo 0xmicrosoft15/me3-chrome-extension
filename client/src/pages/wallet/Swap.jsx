@@ -5,7 +5,7 @@ import SwapArrow from "../../assets/Swap.svg"
 import Polygon from "../../assets/Polygon.svg"
 
 const Container = styled.div`
-    height: 100%;
+    height: 80%;
     width: 100%;
     background-color: #160E25
 `

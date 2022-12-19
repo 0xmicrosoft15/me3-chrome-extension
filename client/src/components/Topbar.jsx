@@ -4,8 +4,7 @@ import Menu from "../assets/Menu.png"
 import Me3 from "../assets/logo_small.png"
 import Polygon from "../assets/Polygon.svg"
 import Arrow from "../assets/ArrowDown.svg"
-
-
+import {Link} from "react-router-dom"
 
 const Container = styled.div`
     display: flex;
@@ -14,13 +13,15 @@ const Container = styled.div`
     flex-direction: row;
     height: 10%;
     background-color: #160E25;
-    width: 100%
+    width: 100%;
+    position: absolute;
+    top:0
 `
 const Wrapper = styled.div`
     display: flex;
     align-items: center;
     flex-direction: row;
-    margin-top: 10px
+    margin-top: 0px
 `
 
 const Logo = styled.img`
@@ -80,7 +81,9 @@ const Navbar = () => {
                     <ChainName>Polygon</ChainName>
                     <ArrowDown src={Arrow} alt=""/>
                 </Wrap>
+                <Link to="/Settings">
                 <MenuLogo src={Menu} alt=""/>
+                </Link>
             </MedContainer>
         </Wrapper>
     </Container>

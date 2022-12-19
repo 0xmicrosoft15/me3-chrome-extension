@@ -12,7 +12,7 @@ import Instagram from "../../assets/Instagram.svg"
 
 const Container = styled.div`
     width: 375px;
-    height: 600px;  
+    height: 80%;  
     background-color: white;
     display: flex;
     align-items: center;
@@ -34,13 +34,8 @@ const Top = styled.div`
     width: 100%;
     height: 10%;
     position: relative;
-    margin-bottom: 20px
-`
-
-const SideIcon = styled.img`
-    padding: 10px;
-    position: absolute;
-    left: 5px
+    margin-bottom: 20px;
+    margin-top: 10px
 `
 
 const TopText = styled.div`
@@ -173,7 +168,7 @@ const Logout = styled.button`
     padding: 20px;
     border-radius: 8px;
     font-weight: 700;
-    border: none
+    border: none;
 `
 
 
@@ -184,7 +179,6 @@ const Settings = () => {
     <Container>
         <Wrapper>
             <Top>
-                <SideIcon src={SettingsIcon} alt=""/>
                 <TopText>Account</TopText>
             </Top>
             <Middle>

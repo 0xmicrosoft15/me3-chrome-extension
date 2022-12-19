@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import Transaction from './Transaction.jsx'
 import Transactions from './Transactions.jsx'
 
 const Container = styled.div`
-    height: 100%;
+    height: 80%;
     width: 100%;
     background-color: #160E25
 `

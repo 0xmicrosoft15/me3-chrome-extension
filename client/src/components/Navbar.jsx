@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Swap from "../assets/TabSwap.png"
 import Wallet from "../assets/TabWallet.png"
 import History from "../assets/TabHistory.svg"
+import {Link} from "react-router-dom"
 
 
 const Container = styled.div`
@@ -12,7 +13,10 @@ const Container = styled.div`
     flex-direction: row;
     height: 10%;
     width: 100%;
-    background-color: #FFFFFF
+    background-color: #FFFFFF;
+    position: absolute;
+    bottom: 0;
+    border-top: 1px solid #E4E4E4
 `
 const Wrapper = styled.div`
     display: flex;
@@ -27,7 +31,8 @@ const SmallContainer = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 5px
+    gap: 5px;
+    cursor: pointer
 `
 
 const Img = styled.img`
@@ -45,18 +50,24 @@ const Navbar = () => {
   return (
     <Container>
         <Wrapper>
-            <SmallContainer>
-                <Img src={Wallet} alt=""/>
-                <Text>Wallet</Text>
-            </SmallContainer>
-            <SmallContainer>
-                <Img src={Swap} alt=""/>
-                <Text>Swap</Text>
-            </SmallContainer>
-            <SmallContainer>
-                <Img src={History} alt=""/>
-                <Text>History</Text>
-            </SmallContainer>
+            <Link to="/" style={{textDecoration:'none'}}>
+                <SmallContainer>
+                    <Img src={Wallet} alt=""/>
+                    <Text>Wallet </Text>
+                </SmallContainer>
+            </Link>
+            <Link to="/Swap" style={{textDecoration:'none'}}>
+                <SmallContainer>
+                    <Img src={Swap} alt=""/>
+                        <Text>Swap</Text>
+                </SmallContainer>   
+            </Link>
+            <Link to="History" style={{textDecoration:'none'}}>
+                <SmallContainer>
+                    <Img src={History} alt=""/>
+                    <Text>History</Text>
+                </SmallContainer>
+            </Link>
         </Wrapper>
     </Container>
   )

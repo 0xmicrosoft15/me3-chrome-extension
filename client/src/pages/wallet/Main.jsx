@@ -26,9 +26,9 @@ const TopWrapper = styled.div`
     flex-direction: column;
     justify-content: flex-end;
     margin-left: 20px;
-    margin-top: 10px;
+    margin-top: 55px;
     background-color: rgba(255, 255, 255, 0.03);
-    border-radius; 8px
+    border-radius: 8px
 `
 
 
@@ -119,21 +119,18 @@ const Bottom = styled.div`
     flex:2;
     background-color: #F7F7F7;
     display: flex;
-    align-items: center;
     justify-content: center;
-    border-radius: 20px 20px 0px 0px
+    border-radius: 20px 20px 0px 0px;
 `
 
 const BottomWrapper = styled.div`
-    height: 300px;
+    height: 320px;
     width: 350px;
     display: flex;
     flex-direction: column;
-    margin-left: 5px;
-    margin-top: 5px;
+    margin-top: 10px;
     background-color: rgba(255, 255, 255, 0.03);
     align-items: center;
-    position: relative;
 `
 
 const HoldingNftWrapper = styled.div`
@@ -141,9 +138,8 @@ const HoldingNftWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute
     flex:1;
-    top: 20px;
+    top: 0px;
     gap: 20px
 `
 
@@ -163,7 +159,7 @@ const AssetsWrapper = styled.div`
     margin-bottom: 10px;
     align-items: center;
     justify-content: center;
-    flex-direction: column
+    flex-direction: column;
 `
 
 
