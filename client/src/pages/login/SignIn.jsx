@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google'
+import axios from "axios"
 
 const Container = styled.div`
     width: 100%;
@@ -48,7 +49,18 @@ const Button = styled.button`
 const SignIn = () => {
 
     const login = useGoogleLogin({
-        onSuccess: tokenResponse => console.log(tokenResponse),
+        onSuccess: async response => {
+            try{
+            const data = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo",{
+                headers:{
+                    "Authorization": `Bearer ${response.access_token}`
+                }
+            })
+            console.log(data)
+            }catch(err){
+                console.log(err)
+            }
+        }
       });
     
   return (
