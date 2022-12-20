@@ -1,13 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useGoogleLogin } from '@react-oauth/google';
 
 const Container = styled.div`
-    width: 80%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    background-color: white;
+    border: 1px solid
 `
 const Wrapper = styled.div`
     display: flex;
@@ -43,6 +46,11 @@ const Button = styled.button`
 `
 
 const SignIn = () => {
+
+    const login = useGoogleLogin({
+        onSuccess: tokenResponse => console.log(tokenResponse),
+      });
+    
   return (
     <Container>
         <Wrapper>
@@ -58,7 +66,7 @@ const SignIn = () => {
         <Disclaimer>
             By continuing, you agree to our Terms of Use and Privacy Policy
         </Disclaimer>
-        <Button>
+        <Button onClick={() => login()}>
             Sign in with Google
         </Button>
         </Wrapper>

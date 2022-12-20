@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Navbar, Topbar } from './components'
-import {AllSet} from "./pages/login"
+import {AllSet, SignIn} from "./pages/login"
 import { Main, Empty,Swap, History, Settings } from './pages/wallet'
 import {Route, Routes} from "react-router-dom"
 
@@ -25,14 +25,15 @@ function App() {
   return (
     <Wrapper>
     <Container>
-      <Topbar/>
+      <SignIn/>
+      {/* <Topbar/>
         <Routes>
           <Route path="/" element={<Main/>}/>
           <Route path="/Swap" element={<Swap/>}/>
           <Route path="/History" element={<History/>}/>
           <Route path="/Settings" element={<Settings/>}/>
         </Routes>
-      <Navbar/>
+      <Navbar/> */}
     </Container>
     </Wrapper>
   );
