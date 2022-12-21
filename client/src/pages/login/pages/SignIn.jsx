@@ -45,7 +45,7 @@ const Button = styled.button`
     border: 1px solid;
     cursor: pointer;
     font-weight: 500;  
-    padding: 50px
+    padding: 10px
 `
 
 const SignIn = () => {

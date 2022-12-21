@@ -1,8 +1,9 @@
-import { saveAuthData } from "../../../../api/utils/localStorage.js"
-import {RSA2text} from "./functions/helper_functions.js"
-import storageConst from "../../../../api/config/storage.js"
-import { keyExchange, registerUser } from "../../../../api/login/loginApis.js"
-import { setDecrypt } from "../../utils/rsaEncryptDecrypt.js"
+import { retrieveAuthData, saveAuthData } from "../../../../../api/utils/localStorage.js"
+import {RSA2text} from "./helper_functions.js"
+import storageConst from "../../../../../api/config/storage.js"
+import { keyExchange, registerUser, uploadFileGdrive } from "../../../../../api/login/loginApis.js"
+import { setDecrypt } from "../../../utils/rsaEncryptDecrypt.js"
+import { Encrypt, getRandomString } from "../../../utils/EncryptDecrpyt.js"
 
 
 async function encryption(email) {
@@ -48,9 +49,24 @@ async function encryption(email) {
                         var salt = responseData.salt
                         var uid = responseData.uid
 
-                        Encrypt(getRandomString(40))
+                        Encrypt(getRandomString(40) + new Date().getTime(), password)
+                            .then(data => {
+                                const fileObject = {
+                                    uid: uid,
+                                    password: password,
+                                    salt: salt,
+                                    key: data
+                                }
+                                uploadFile(fileObject)
+                            })
                     }
                 })
         })
     
+}
+
+
+async function uploadFile(file) {
+    var accessToken = await retrieveAuthData(storageConst.ACCESS_TOKEN)
+    gdrive.accessToken = accessToken
 }

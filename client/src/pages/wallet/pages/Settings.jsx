@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import SettingsIcon from "../../../assets/SettingsIcon.svg"
-import GoogleIcon from "../../assets/GoogleIcon.svg"
-import ArrowRight from "../../assets/ArrowRight.svg"
-import SecurityIcon from "../../assets/SecurityIcon.svg"
-import CurrencyIcon from "../../assets/CurrencyIcon.svg"
-import Telegram from "../../assets/Telegram.svg"
-import Twitter from "../../assets/Twitter.svg"
-import Linkedin from "../../assets/Linkedin.svg"
-import Instagram from "../../assets/Instagram.svg"
+import GoogleIcon from "../../../assets/GoogleIcon.svg"
+import ArrowRight from "../../../assets/ArrowRight.svg"
+import SecurityIcon from "../../../assets/SecurityIcon.svg"
+import CurrencyIcon from "../../../assets/CurrencyIcon.svg"
+import Telegram from "../../../assets/Telegram.svg"
+import Twitter from "../../../assets/Twitter.svg"
+import Linkedin from "../../../assets/Linkedin.svg"
+import Instagram from "../../../assets/Instagram.svg"
 
 const Container = styled.div`
     width: 375px;

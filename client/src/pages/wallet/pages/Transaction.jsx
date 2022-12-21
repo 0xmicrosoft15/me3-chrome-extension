@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import Pending from "../../assets/Ellipse_purple.svg"
-import PendingIcon from "../../assets/Pending3.svg"
+import Pending from "../../../assets/Ellipse_purple.svg"
+import PendingIcon from "../../../assets/Pending3.svg"
 
 const Container = styled.div`
     height: 70px;

@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Topbar, Navbar } from '../../components'
-import SwapArrow from "../../assets/Swap.svg"
-import Polygon from "../../assets/Polygon.svg"
+import SwapArrow from "../../../assets/Swap.svg"
+import Polygon from "../../../assets/Polygon.svg"
 
 const Container = styled.div`
     height: 80%;
@@ -140,7 +139,6 @@ const Button = styled.button`
 const Swap = () => {
   return (
     <Container>
-
         <Body>
             <Wrapper>
             <BigContainer>
@@ -185,7 +183,6 @@ const Swap = () => {
             </BigContainer>
             </Wrapper>
         </Body>
-    
     </Container>
   )
 }
