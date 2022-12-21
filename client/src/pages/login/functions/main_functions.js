@@ -8,6 +8,9 @@ import { logger } from "../../../utils/Log.js"
 import { getAllWallets } from "../../../database/sql.js"
 import apiConst from '../../../../../api/config/constants'
 import { getSupportCurrency } from "../../../../../api/fetch/getSupportCurrency.js"
+import {useDispatch} from 'react-redux'
+import { setCurrentCurrency } from "../../../../redux/Action/CurrencyAction.js"
+
 
 async function encryption(email) {
     let key = await window.crypto.subtle.generateKey({
@@ -106,6 +109,7 @@ async function uploadFile(file) {
 }
 
 async function setCurrency() {
+    const dispatch = useDispatch()
     let savedCurrency = await retrieveAuthData(storageConst.LEGAL_DETAIL)
     if (savedCurrency == null) {
         getSupportCurrency()
