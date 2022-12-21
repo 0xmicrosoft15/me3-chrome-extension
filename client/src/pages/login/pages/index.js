@@ -1,4 +1,4 @@
-import AllSet from './AllSet'
+import AllSet from './AllSet.jsx'
 import GenWallet from './GenWallet.jsx'
 import PlayStore from './PlayStore.jsx'
 import RetWallet from './RetWallet.jsx'

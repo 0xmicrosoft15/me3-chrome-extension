@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Polygon from "../../assets/Polygon.svg"
+import Polygon from "../../../assets/Polygon.svg"
 
 const Container = styled.div`
     display: flex;

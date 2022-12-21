@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Navbar, Topbar } from './components'
-import {AllSet, SignIn} from "./pages/login"
-import { Main, Empty,Swap, History, Settings } from './pages/wallet'
+import {AllSet, SignIn} from "./pages/login/pages"
+import { Main, Empty,Swap, History, Settings } from './pages/wallet/pages'
 import {Route, Routes} from "react-router-dom"
 
 const Wrapper = styled.div`

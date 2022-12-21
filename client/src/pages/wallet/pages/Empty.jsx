@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import BigWallet from "../../assets/BigWallet.svg"
+import BigWallet from "../../../assets/BigWallet.svg"
 
 const Container = styled.div`
     display: flex;

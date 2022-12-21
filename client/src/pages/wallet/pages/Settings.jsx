@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import SettingsIcon from "../../assets/SettingsIcon.svg"
+import SettingsIcon from "../../../assets/SettingsIcon.svg"
 import GoogleIcon from "../../assets/GoogleIcon.svg"
 import ArrowRight from "../../assets/ArrowRight.svg"
 import SecurityIcon from "../../assets/SecurityIcon.svg"

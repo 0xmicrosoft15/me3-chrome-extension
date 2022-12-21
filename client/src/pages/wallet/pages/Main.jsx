@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Navbar, Topbar } from '../../components'
-import Circle from "../../assets/Ellipse.svg"
-import Copy from "../../assets/Copy.svg"
-import DownArrow from "../../assets/DownArrow.svg"
-import SendArrow from "../../assets/SendArrow.svg"
+import Circle from "../../../assets/Ellipse.svg"
+import Copy from "../../../assets/Copy.svg"
+import DownArrow from "../../../assets/DownArrow.svg"
+import SendArrow from "../../../assets/SendArrow.svg"
 import Empty from './Empty.jsx'
 import Chain from './Chain.jsx'
 
