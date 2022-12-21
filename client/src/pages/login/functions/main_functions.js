@@ -1,10 +1,13 @@
 import { retrieveAuthData, saveAuthData } from "../../../../../api/utils/localStorage.js"
 import {RSA2text} from "./helper_functions.js"
 import storageConst from "../../../../../api/config/storage.js"
-import { keyExchange, registerUser, uploadFileGdrive } from "../../../../../api/login/loginApis.js"
+import { keyExchange, registerUser, setFileId, uploadFileGdrive } from "../../../../../api/login/loginApis.js"
 import { setDecrypt } from "../../../utils/rsaEncryptDecrypt.js"
 import { Encrypt, getRandomString } from "../../../utils/EncryptDecrpyt.js"
-
+import { logger } from "../../../utils/Log.js"
+import { getAllWallets } from "../../../database/sql.js"
+import apiConst from '../../../../../api/config/constants'
+import { getSupportCurrency } from "../../../../../api/fetch/getSupportCurrency.js"
 
 async function encryption(email) {
     let key = await window.crypto.subtle.generateKey({
@@ -59,7 +62,17 @@ async function encryption(email) {
                                 }
                                 uploadFile(fileObject)
                             })
-                    }
+                            .catch(error => {
+                                logger('error', error)
+                            })
+                    }else {
+                        var token = registerData.data.token
+                        if (token != undefined) {
+                            saveAuthData(storageConst.LIGHT_TOKEN, token)
+                            setFileId()
+                            getAllWallets()
+                        }
+                    }        
                 })
         })
     
@@ -69,4 +82,44 @@ async function encryption(email) {
 async function uploadFile(file) {
     var accessToken = await retrieveAuthData(storageConst.ACCESS_TOKEN)
     gdrive.accessToken = accessToken
+    let fileName = 'ME3_KEY.json'
+    if (apiConst.BASE_URL === 'https://avarta-official-dev.avarta.io/me3-api'){
+        fileName = 'ME3_KEY_DEV.json'
+    }else if (apiConst.BASE_URL === 'https://pre-wallet-prod.me3.io/me3-api'){
+        fileName = 'ME3_KEY_PRE_PROD.json'
+    }else{
+        fileName = 'ME3_KEY.json' 
+    }
+
+    return new Promise(async function(resolve,reject){
+        gdrive.files
+            .newMultipartUploader()
+            .setData(file, MimeTypes.json)
+            .setRequestBody({
+                name: fileName
+            })
+            .execute()
+            .then(data => {
+                saveAuthData(storageConst.FILE_ID, data.id)
+            })
+    })
+}
+
+async function setCurrency() {
+    let savedCurrency = await retrieveAuthData(storageConst.LEGAL_DETAIL)
+    if (savedCurrency == null) {
+        getSupportCurrency()
+            .then(currencyList => {
+                let result = currencyList.find(item => {
+                    return item.fiat == 'IDR' && item
+                })
+                if (result == undefined) result = data[0]
+                saveAuthData(storageConst.LEGAL_DETAIL, JSON.stringify(result))
+            })
+            .catch(function(error){
+                logger('error supoortCurrency', error)
+            })
+    }else {
+        setCurrentCurrency(dispatch, JSON.parse(savedCurrency))
+    }
 }
