@@ -1,6 +1,6 @@
-import { getHeader, getRequestParams } from "../utils/helpers.js";
+import { getHeader, getRequestParams } from "../utils/helpers.js.js";
 import axios from 'axios'
-import apiConst from '../config/constants.js'
+import apiConst from '../config/constants.js.js'
 
  export async function getChainAssets(params) {
 

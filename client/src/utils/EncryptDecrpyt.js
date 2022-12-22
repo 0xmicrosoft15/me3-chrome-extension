@@ -3,8 +3,8 @@ import pbkdf2 from 'pbkdf2';
 import base64 from 'base-64';
 import utf8 from 'utf8';
 import CryptoJS from './crypto-js.min.js';
-import { retrieveAuthData } from '../../../api/utils/localStorage.js';
-import storageConst from '../../../api/config/storage.js';
+import { retrieveAuthData } from '../api/utils/localStorage.js';
+import storageConst from '../api/config/storage.js';
 import { logger } from './Log.js';
 
 function spaceSupply(text) {

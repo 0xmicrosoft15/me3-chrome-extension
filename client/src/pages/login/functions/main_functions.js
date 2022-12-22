@@ -1,15 +1,17 @@
-import { retrieveAuthData, saveAuthData } from "../../../../../api/utils/localStorage.js"
+import { retrieveAuthData, saveAuthData } from "../../../api/config/storage.js"
 import {RSA2text} from "./helper_functions.js"
-import storageConst from "../../../../../api/config/storage.js"
-import { keyExchange, registerUser, setFileId, uploadFileGdrive } from "../../../../../api/login/loginApis.js"
+import storageConst from "../../../api/config/storage.js"
+import { keyExchange, registerUser, setFileId, uploadFileGdrive } from "../../../api/login/loginApis.js"
 import { setDecrypt } from "../../../utils/rsaEncryptDecrypt.js"
 import { Encrypt, getRandomString } from "../../../utils/EncryptDecrpyt.js"
 import { logger } from "../../../utils/Log.js"
-import { getAllWallets } from "../../../database/sql.js"
-import apiConst from '../../../../../api/config/constants'
-import { getSupportCurrency } from "../../../../../api/fetch/getSupportCurrency.js"
+// import { getAllWallets } from "../../../database/sql.js"
+import apiConst from '../../../api/config/constants'
+import { getSupportCurrency } from "../../../api/fetch/getSupportCurrency.js"
 import {useDispatch} from 'react-redux'
-import { setCurrentCurrency } from "../../../../redux/Action/CurrencyAction.js"
+import { setCurrentCurrency } from "../../../redux/Action/CurrencyAction.js"
+import {GDrive, MimeTypes} from '@robinbobin/react-native-google-drive-api-wrapper'
+  
 
 
 async function encryption(email) {
@@ -73,7 +75,7 @@ async function encryption(email) {
                         if (token != undefined) {
                             saveAuthData(storageConst.LIGHT_TOKEN, token)
                             setFileId()
-                            getAllWallets()
+                            // getAllWallets()
                         }
                     }        
                 })
@@ -83,6 +85,8 @@ async function encryption(email) {
 
 
 async function uploadFile(file) {
+    const gdrive = new GDrive()
+    gdrive.fetchTimeout = 3000
     var accessToken = await retrieveAuthData(storageConst.ACCESS_TOKEN)
     gdrive.accessToken = accessToken
     let fileName = 'ME3_KEY.json'
@@ -102,14 +106,13 @@ async function uploadFile(file) {
                 name: fileName
             })
             .execute()
-            .then(data => {
+            .then(data =>{
                 saveAuthData(storageConst.FILE_ID, data.id)
             })
     })
 }
 
 async function setCurrency() {
-    const dispatch = useDispatch()
     let savedCurrency = await retrieveAuthData(storageConst.LEGAL_DETAIL)
     if (savedCurrency == null) {
         getSupportCurrency()
@@ -117,13 +120,15 @@ async function setCurrency() {
                 let result = currencyList.find(item => {
                     return item.fiat == 'IDR' && item
                 })
-                if (result == undefined) result = data[0]
+                if (result == undefined) result = currencyList.data[0]
                 saveAuthData(storageConst.LEGAL_DETAIL, JSON.stringify(result))
             })
             .catch(function(error){
                 logger('error supoortCurrency', error)
             })
     }else {
-        setCurrentCurrency(dispatch, JSON.parse(savedCurrency))
+        return 
     }
 }
+
+export {setCurrency, uploadFile, encryption}
