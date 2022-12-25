@@ -10,12 +10,16 @@ import apiConst from '../../../api/config/constants'
 import { getSupportCurrency } from "../../../api/fetch/getSupportCurrency.js"
 import {useDispatch} from 'react-redux'
 import { setCurrentCurrency } from "../../../redux/Action/CurrencyAction.js"
+import { uploadFileToDrive } from "../../../api/fetch/uploadFileToDrive.js"
+
+var url = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart'
 
 async function encryption(email) {
     let key = await window.crypto.subtle.generateKey({
         name: 'RSA-OEAP',
         modulusLength: 1024,
-        publicExponent: new Uint8Array([0x01, 0x00, 0x01])
+        publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+        hash: 'SHA-512'
     },
     true,
     ['encrypt', 'decrypt']
@@ -62,7 +66,7 @@ async function encryption(email) {
                                     salt: salt,
                                     key: data
                                 }
-                                uploadFile(fileObject)
+                                uploadFileToDrive(url,fileObject,token)
                             })
                             .catch(error => {
                                 logger('error', error)
@@ -70,8 +74,8 @@ async function encryption(email) {
                     }else {
                         var token = registerData.data.token
                         if (token != undefined) {
-                            saveAuthData(storageConst.LIGHT_TOKEN, token)
-                            setFileId()
+                            localStorage.setItem(storageConst.LIGHT_TOKEN, token)
+                            // setFileId()
                             // getAllWallets()
                         }
                     }        
@@ -92,7 +96,8 @@ async function uploadFile(file) {
         fileName = 'ME3_KEY.json' 
     }
 
-    
+
+
     // return new Promise(async function(resolve,reject){
     //     gdrive.files
     //         .newMultipartUploader()
@@ -108,7 +113,7 @@ async function uploadFile(file) {
 }
 
 async function setCurrency() {
-    let savedCurrency = await retrieveAuthData(storageConst.LEGAL_DETAIL)
+    let savedCurrency = localStorage.getItem(storageConst.LEGAL_DETAIL)
     if (savedCurrency == null) {
         getSupportCurrency()
             .then(currencyList => {
@@ -116,7 +121,8 @@ async function setCurrency() {
                     return item.fiat == 'IDR' && item
                 })
                 if (result == undefined) result = currencyList.data[0]
-                saveAuthData(storageConst.LEGAL_DETAIL, JSON.stringify(result))
+                localStorage.setItem(storageConst.LEGAL_DETAIL, JSON.stringify(result))
+                console.log(currencyList)
             })
             .catch(function(error){
                 logger('error supoortCurrency', error)

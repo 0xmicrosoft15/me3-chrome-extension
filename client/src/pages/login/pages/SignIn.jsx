@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useGoogleLogin } from '@react-oauth/google'
 import axios from 'axios'
-import { setCurrency } from '../functions/main_functions'
+import { encryption, setCurrency, uploadFile } from '../functions/main_functions'
 
 const Container = styled.div`
     width: 100%;
@@ -66,13 +66,12 @@ const SignIn = () => {
                 console.log(email)
                 access_token = tokenResponse.access_token
                 console.log(access_token)
+                encryption(email)
             }catch(err){
                 console.log(err)
             }
         }
       })
-      
-    
 
   return (
     <Container>
@@ -89,7 +88,7 @@ const SignIn = () => {
         <Disclaimer>
             By continuing, you agree to our Terms of Use and Privacy Policy
         </Disclaimer>
-        <Button onClick={() => login().then(setCurrency())}>
+        <Button onClick={() => login()}>
             Sign in with Google
         </Button>
         </Wrapper>

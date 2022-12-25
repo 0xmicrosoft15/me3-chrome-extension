@@ -1,4 +1,4 @@
-async function saveAuthData(key, value) {
+function saveAuthData(key, value) {
     try{
         localStorage.setItem(
             key,
@@ -9,7 +9,7 @@ async function saveAuthData(key, value) {
     }
 }
 
-async function retrieveAuthData(key) {
+function retrieveAuthData(key) {
     try{
         localStorage.getItem(key)
     } catch(error){
@@ -17,7 +17,7 @@ async function retrieveAuthData(key) {
     }
 }
 
-async function clearAuthData() {
+function clearAuthData() {
     try{
         localStorage.clear()
     } catch(error){

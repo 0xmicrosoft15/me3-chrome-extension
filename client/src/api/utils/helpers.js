@@ -6,8 +6,8 @@ import axios from "axios";
 
 async function getHeader() {
 
-    let lightToken = await retrieveAuthData(storageConst.LIGHT_TOKEN)  
-    let currency = await retrieveAuthData(storageConst.LEGAL_DETAIL)
+    let lightToken = await localStorage.getItem(storageConst.LIGHT_TOKEN)  
+    let currency = await localStorage.getItem(storageConst.LEGAL_DETAIL)
 
     return {
         'Company-ID': configData.COMPANY_ID,
@@ -22,7 +22,7 @@ async function requestOfGet({url, params}) {
     try {
         params = await getRequestParams(params)
         console.log(`GET ${url}?${params}`)
-        let lightToken = await retrieveAuthData(storageConst.LIGHT_TOKEN)
+        let lightToken = localStorage.getItem(storageConst.LIGHT_TOKEN)
         var config = {
             method: 'get',
             url: apiConst.BASE_URL + url,
