@@ -10,9 +10,6 @@ import apiConst from '../../../api/config/constants'
 import { getSupportCurrency } from "../../../api/fetch/getSupportCurrency.js"
 import {useDispatch} from 'react-redux'
 import { setCurrentCurrency } from "../../../redux/Action/CurrencyAction.js"
-import {GDrive, MimeTypes} from '@robinbobin/react-native-google-drive-api-wrapper'
-  
-
 
 async function encryption(email) {
     let key = await window.crypto.subtle.generateKey({
@@ -85,10 +82,7 @@ async function encryption(email) {
 
 
 async function uploadFile(file) {
-    const gdrive = new GDrive()
-    gdrive.fetchTimeout = 3000
     var accessToken = await retrieveAuthData(storageConst.ACCESS_TOKEN)
-    gdrive.accessToken = accessToken
     let fileName = 'ME3_KEY.json'
     if (apiConst.BASE_URL === 'https://avarta-official-dev.avarta.io/me3-api'){
         fileName = 'ME3_KEY_DEV.json'
@@ -98,18 +92,19 @@ async function uploadFile(file) {
         fileName = 'ME3_KEY.json' 
     }
 
-    return new Promise(async function(resolve,reject){
-        gdrive.files
-            .newMultipartUploader()
-            .setData(file, MimeTypes.json)
-            .setRequestBody({
-                name: fileName
-            })
-            .execute()
-            .then(data =>{
-                saveAuthData(storageConst.FILE_ID, data.id)
-            })
-    })
+    
+    // return new Promise(async function(resolve,reject){
+    //     gdrive.files
+    //         .newMultipartUploader()
+    //         .setData(file, MimeTypes.json)
+    //         .setRequestBody({
+    //             name: fileName
+    //         })
+    //         .execute()
+    //         .then(data =>{
+    //             saveAuthData(storageConst.FILE_ID, data.id)
+    //         })
+    // })
 }
 
 async function setCurrency() {
