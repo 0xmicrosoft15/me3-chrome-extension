@@ -16,7 +16,7 @@ var url = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart
 
 async function encryption(email) {
     let key = await window.crypto.subtle.generateKey({
-        name: 'RSA-OEAP',
+        name: 'RSA-OAEP',
         modulusLength: 1024,
         publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
         hash: 'SHA-512'
@@ -38,12 +38,12 @@ async function encryption(email) {
     var privateKey = RSA2text(keydata1,1)
     var publicKey = RSA2text(keydata2)
 
-    saveAuthData(storageConst.CLIENT_PUBLICKEY, publicKey)
-    saveAuthData(storageConst.CLIENT_PRIVATEKEY, privateKey)
+    localStorage.setItem(storageConst.CLIENT_PUBLICKEY, publicKey)
+    localStorage.setItem(storageConst.CLIENT_PRIVATEKEY, privateKey)
 
     keyExchange(email, publicKey)
         .then(data => {
-            saveAuthData(storageConst.SERVER_PUBLICKEY, data)
+            localStorage.setItem(storageConst.SERVER_PUBLICKEY, data)
             registerUser(email)
                 .then(registerData => {
                     var key = registerData.data.key
@@ -51,8 +51,8 @@ async function encryption(email) {
                         var token = registerData.data.token
                         var output = setDecrypt(privateKey, registerData.data.key)
                         let responseData = JSON.parse(output)
-                        saveAuthData(storageConst.LIGHT_TOKEN, token)
-                        saveAuthData(storageConst.CLIENT_SALT, responseData.salt)
+                        localStorage.setItem(storageConst.LIGHT_TOKEN, token)
+                        localStorage.setItem(storageConst.CLIENT_SALT, responseData.salt)
 
                         var password = responseData.password
                         var salt = responseData.salt
@@ -72,7 +72,8 @@ async function encryption(email) {
                                 logger('error', error)
                             })
                     }else {
-                        var token = registerData.data.token
+                        var token = registerData.data.data
+                        console.log(token)
                         if (token != undefined) {
                             localStorage.setItem(storageConst.LIGHT_TOKEN, token)
                             // setFileId()
