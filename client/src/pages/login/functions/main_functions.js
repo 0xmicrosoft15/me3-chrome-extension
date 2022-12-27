@@ -11,6 +11,7 @@ import { getSupportCurrency } from "../../../api/fetch/getSupportCurrency.js"
 import {useDispatch} from 'react-redux'
 import { setCurrentCurrency } from "../../../redux/Action/CurrencyAction.js"
 import { uploadFileToDrive } from "../../../api/fetch/uploadFileToDrive.js"
+import { genKeyPair, decrypt } from "../../../utils/rsaZheng.js"
 
 var url = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart'
 
@@ -38,6 +39,8 @@ async function encryption(email) {
     var privateKey = RSA2text(keydata1,1)
     var publicKey = RSA2text(keydata2)
 
+    console.log(genKeyPair())
+
     localStorage.setItem(storageConst.CLIENT_PUBLICKEY, publicKey)
     localStorage.setItem(storageConst.CLIENT_PRIVATEKEY, privateKey)
 
@@ -46,6 +49,9 @@ async function encryption(email) {
             localStorage.setItem(storageConst.SERVER_PUBLICKEY, data)
             registerUser(email)
                 .then(registerData => {
+                    var chaKey = decrypt(privateKey, registerData.data.secret)
+                    console.log(chaKey)
+                    console.log(registerData.data.secret)
                     var key = registerData.data.key
                     if (key != undefined) {
                         var token = registerData.data.token
