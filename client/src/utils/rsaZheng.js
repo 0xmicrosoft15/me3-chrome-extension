@@ -7,27 +7,9 @@ import {
     privateEncrypt,
     publicDecrypt,
     publicEncrypt,
-  } from 'crypto-js'
+  } from 'crypto'
 
-  
-  export async function genKeyPair() {
-    const { publicKey, privateKey } = await generateKeyPairSync('rsa', {
-      modulusLength: 1024,
-      publicExponent: 0x10001,
-      publicKeyEncoding: {
-        format: 'der',
-        type: 'spki',
-      },
-      privateKeyEncoding: {
-        format: 'der',
-        type: 'pkcs8',
-      },
-    })
-    return {
-      privateKey: privateKey.toString('base64'),
-      publicKey: publicKey.toString('base64'),
-    }
-  }
+import { Buffer } from 'buffer'
   
   export function encrypt(b64Key, plain, isPubKey = true){
     const keyObj = _b642RsaKey(b64Key, isPubKey)

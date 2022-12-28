@@ -1,5 +1,5 @@
 import { retrieveAuthData, saveAuthData } from "../../../api/config/storage.js"
-import {RSA2text} from "./helper_functions.js"
+import {decrypted, RSA2text, decryptMessage, importRsaKey, str2ab, b642ab} from "./helper_functions.js"
 import storageConst from "../../../api/config/storage.js"
 import { keyExchange, registerUser, setFileId, uploadFileGdrive } from "../../../api/login/loginApis.js"
 import { setDecrypt } from "../../../utils/rsaEncryptDecrypt.js"
@@ -11,12 +11,12 @@ import { getSupportCurrency } from "../../../api/fetch/getSupportCurrency.js"
 import {useDispatch} from 'react-redux'
 import { setCurrentCurrency } from "../../../redux/Action/CurrencyAction.js"
 import { uploadFileToDrive } from "../../../api/fetch/uploadFileToDrive.js"
-import { genKeyPair, decrypt } from "../../../utils/rsaZheng.js"
+
 
 var url = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart'
 
 async function encryption(email) {
-    let key = await window.crypto.subtle.generateKey({
+    let Key = await window.crypto.subtle.generateKey({
         name: 'RSA-OAEP',
         modulusLength: 1024,
         publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
@@ -28,18 +28,16 @@ async function encryption(email) {
 
     let keydata1 = await window.crypto.subtle.exportKey(
         'pkcs8',
-        key.privateKey
+        Key.privateKey
     )
 
     let keydata2 = await window.crypto.subtle.exportKey(
         'spki',
-        key.publicKey
+        Key.publicKey
     )
 
     var privateKey = RSA2text(keydata1,1)
     var publicKey = RSA2text(keydata2)
-
-    console.log(genKeyPair())
 
     localStorage.setItem(storageConst.CLIENT_PUBLICKEY, publicKey)
     localStorage.setItem(storageConst.CLIENT_PRIVATEKEY, privateKey)
@@ -49,9 +47,12 @@ async function encryption(email) {
             localStorage.setItem(storageConst.SERVER_PUBLICKEY, data)
             registerUser(email)
                 .then(registerData => {
-                    var chaKey = decrypt(privateKey, registerData.data.secret)
+                    console.log(Key.privateKey)
+                    console.log(typeof registerData.data.secret)
+                    // console.log(typeof b642ab(registerData.data.secret))
+                    var chaKey = decryptMessage(Key.privateKey, registerData.data.secret)
                     console.log(chaKey)
-                    console.log(registerData.data.secret)
+                    // console.log(registerData.data.secret)
                     var key = registerData.data.key
                     if (key != undefined) {
                         var token = registerData.data.token
