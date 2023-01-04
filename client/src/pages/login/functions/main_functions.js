@@ -1,8 +1,6 @@
 import { retrieveAuthData, saveAuthData } from "../../../api/config/storage.js"
-import {decrypted, RSA2text, decryptMessage, importRsaKey, str2ab, b642ab} from "./helper_functions.js"
 import storageConst from "../../../api/config/storage.js"
 import { keyExchange, registerUser, setFileId, uploadFileGdrive } from "../../../api/login/loginApis.js"
-import { setDecrypt } from "../../../utils/rsaEncryptDecrypt.js"
 import { Encrypt, getRandomString } from "../../../utils/EncryptDecrpyt.js"
 import { logger } from "../../../utils/Log.js"
 // import { getAllWallets } from "../../../database/sql.js"
@@ -11,82 +9,117 @@ import { getSupportCurrency } from "../../../api/fetch/getSupportCurrency.js"
 import {useDispatch} from 'react-redux'
 import { setCurrentCurrency } from "../../../redux/Action/CurrencyAction.js"
 import { uploadFileToDrive } from "../../../api/fetch/uploadFileToDrive.js"
-
+import {pki, asn1, util} from 'node-forge'
+import * as stableHex from '@stablelib/hex'
+import * as stable64 from '@stablelib/base64'
+import * as stableUtf8 from '@stablelib/utf8'
+import {ChaCha20Poly1305, NONCE_LENGTH} from '@stablelib/chacha20poly1305'
 
 var url = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart'
 
 async function encryption(email) {
-    let Key = await window.crypto.subtle.generateKey({
-        name: 'RSA-OAEP',
-        modulusLength: 1024,
-        publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
-        hash: 'SHA-512'
-    },
-    true,
-    ['encrypt', 'decrypt']
+    
+    const rsaKeyPair =  
+        pki.rsa.generateKeyPair({
+        bits: 1024,
+        e: 0x10001,
+    })
+    
+    const {privateKey, publicKey} = rsaKeyPair
+
+    const priKey = util.encode64(
+        asn1.toDer(pki.privateKeyToAsn1(privateKey)).getBytes(),
+    )
+    
+    const pubKey = util.encode64(
+    asn1.toDer(pki.publicKeyToAsn1(publicKey)).getBytes(),
     )
 
-    let keydata1 = await window.crypto.subtle.exportKey(
-        'pkcs8',
-        Key.privateKey
-    )
+    localStorage.setItem(storageConst.CLIENT_PUBLICKEY, pubKey)
+    localStorage.setItem(storageConst.CLIENT_PRIVATEKEY, priKey)
 
-    let keydata2 = await window.crypto.subtle.exportKey(
-        'spki',
-        Key.publicKey
-    )
-
-    var privateKey = RSA2text(keydata1,1)
-    var publicKey = RSA2text(keydata2)
-
-    localStorage.setItem(storageConst.CLIENT_PUBLICKEY, publicKey)
-    localStorage.setItem(storageConst.CLIENT_PRIVATEKEY, privateKey)
-
-    keyExchange(email, publicKey)
+    keyExchange(email, pubKey)
         .then(data => {
             localStorage.setItem(storageConst.SERVER_PUBLICKEY, data)
             registerUser(email)
                 .then(registerData => {
-                    console.log(Key.privateKey)
-                    console.log(typeof registerData.data.secret)
-                    // console.log(typeof b642ab(registerData.data.secret))
-                    var chaKey = decryptMessage(Key.privateKey, registerData.data.secret)
-                    console.log(chaKey)
-                    // console.log(registerData.data.secret)
-                    var key = registerData.data.key
-                    if (key != undefined) {
-                        var token = registerData.data.token
-                        var output = setDecrypt(privateKey, registerData.data.key)
-                        let responseData = JSON.parse(output)
-                        localStorage.setItem(storageConst.LIGHT_TOKEN, token)
-                        localStorage.setItem(storageConst.CLIENT_SALT, responseData.salt)
+                    console.log(registerData.data.secret, typeof registerData.data.secret)
+                    const chachaKey = stableHex.decode(
+                        util.bytesToHex(
+                          privateKey.decrypt(util.decode64(registerData.data.secret), 'RSA-OAEP'),
+                        ),
+                    )
+                    console.log(chachaKey)
+                    const decipher = new ChaCha20Poly1305(chachaKey)
+                    const array = stable64.decode(registerData.data.data)
+                    const decrypted = stableUtf8.decode(
+                        decipher.open(array.slice(0, NONCE_LENGTH), array.slice(NONCE_LENGTH)),
+                      )
+                    console.log(decrypted)
+                    const check = Object.keys(decrypted).length         
+                    if (check !== 1) {
+                        const obj = JSON.parse(decrypted)
+                        var token = obj.token
+                        console.log(token)
+                        var password = obj.password
+                        var salt = obj.salt
+                        var uid = obj.uid
 
-                        var password = responseData.password
-                        var salt = responseData.salt
-                        var uid = responseData.uid
+                        localStorage.setItem(storageConst.LIGHT_TOKEN, token)
+                        localStorage.setItem(storageConst.CLIENT_SALT, salt)
 
                         Encrypt(getRandomString(40) + new Date().getTime(), password)
-                            .then(data => {
-                                const fileObject = {
-                                    uid: uid,
-                                    password: password,
-                                    salt: salt,
-                                    key: data
-                                }
-                                uploadFileToDrive(url,fileObject,token)
-                            })
-                            .catch(error => {
-                                logger('error', error)
-                            })
-                    }else {
-                        var token = registerData.data.data
-                        console.log(token)
-                        if (token != undefined) {
+                        .then(data => {
+                            const fileObject = {
+                                uid: uid,
+                                password: password,
+                                salt: salt,
+                                key: data
+                            }
+                            uploadFileToDrive(url,token,fileObject)
+                        })
+                        .catch(error => {
+                            logger('error', error)
+                        })   
+                    }else{
+                        var token = decrypted.token
+                        if (token != undefined){
                             localStorage.setItem(storageConst.LIGHT_TOKEN, token)
-                            // setFileId()
-                            // getAllWallets()
                         }
-                    }        
+                    }
+                    // if (key != undefined) {
+                    //     var token = registerData.data.token
+                    //     // var output = setDecrypt(privateKey, registerData.data.key)
+                    //     // let responseData = JSON.parse(output)
+                    //     localStorage.setItem(storageConst.LIGHT_TOKEN, token)
+                    //     localStorage.setItem(storageConst.CLIENT_SALT, responseData.salt)
+
+                    //     var password = responseData.password
+                    //     var salt = responseData.salt
+                    //     var uid = responseData.uid
+
+                        // Encrypt(getRandomString(40) + new Date().getTime(), password)
+                        //     .then(data => {
+                        //         const fileObject = {
+                        //             uid: uid,
+                        //             password: password,
+                        //             salt: salt,
+                        //             key: data
+                        //         }
+                        //         uploadFileToDrive(url,fileObject,token)
+                        //     })
+                        //     .catch(error => {
+                        //         logger('error', error)
+                        //     })
+                    // }else {
+                    //     var token = registerData.data.data
+                    //     console.log(token)
+                    //     if (token != undefined) {
+                    //         localStorage.setItem(storageConst.LIGHT_TOKEN, token)
+                    //         // setFileId()
+                    //         // getAllWallets()
+                    //     }
+                    // }        
                 })
         })
     
