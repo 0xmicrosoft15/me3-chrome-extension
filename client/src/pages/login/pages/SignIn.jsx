@@ -76,6 +76,29 @@ const SignIn = () => {
         tokenClient.requestAccessToken()
     }
 
+    async function uploadFile(accessToken) {
+        var fileContent = 'Hello world'
+        var file = new Blob([fileContent], {type: 'text/plain'})
+        var metdata = {
+            'name' : 'sample-file-via-js', // Filename at Google Drive 
+            'mimeType': 'text/plain'
+        }
+        var accessToken = accessToken
+        var form = new FormData()
+        form.append('metadata', new Blob([JSON.stringify(metdata)], {type:'application/json'}))
+        form.append('file', file)
+
+        var xhr = new XMLHttpRequest()
+        xhr.open('post', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart')
+        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken)
+        xhr.responseType = 'json'
+        xhr.onload = () => {
+            console.log('File uploaded successfully. The Google file id is <b>' + xhr.response.id + '</b>')
+        }
+        xhr.send(form)
+    }
+
+
     useEffect(() => {
         /* global google */
         const google = window.google
@@ -94,7 +117,12 @@ const SignIn = () => {
             scope: SCOPES,
             callback: (tokenResponse) => {
                 console.log(tokenResponse)
+                access_token = tokenResponse.access_token
+                console.log(access_token)
                 //we now have access to live token to use for any google API
+                if (tokenResponse && tokenResponse.access_token){
+                    uploadFile(access_token)
+                }
             }
         }))
         // google.accounts.id.prompt()
