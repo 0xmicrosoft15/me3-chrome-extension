@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { useGoogleLogin } from '@react-oauth/google'
 import axios from 'axios'
 import { encryption, setCurrency, uploadFile } from '../functions/main_functions'
+import { googleInstance } from '../../../utils/google'
+import { handleAuthClick } from '../../../utils/googlev2'
 
 const Container = styled.div`
     width: 100%;
@@ -53,25 +55,25 @@ var email
 
 const SignIn = () => {
 
-    const login = useGoogleLogin({
-        onSuccess:  async function response(tokenResponse) {
-            try {
-                const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo",{
-                    headers: {
-                        "Authorization": `Bearer ${tokenResponse.access_token}`
-                    }
-                })
-                console.log(res.data)
-                email = res.data.email
-                console.log(email)
-                access_token = tokenResponse.access_token
-                console.log(access_token)
-                encryption(email)
-            }catch(err){
-                console.log(err)
-            }
-        }
-      })
+    // const login = useGoogleLogin({
+    //     onSuccess:  async function response(tokenResponse) {
+    //         try {
+    //             const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo",{
+    //                 headers: {
+    //                     "Authorization": `Bearer ${tokenResponse.access_token}`
+    //                 }
+    //             })
+    //             console.log(res.data)
+    //             email = res.data.email
+    //             console.log(email)
+    //             access_token = tokenResponse.access_token
+    //             console.log(access_token)
+    //             encryption(email)
+    //         }catch(err){
+    //             console.log(err)
+    //         }
+    //     }
+    //   })
 
   return (
     <Container>
@@ -88,7 +90,7 @@ const SignIn = () => {
         <Disclaimer>
             By continuing, you agree to our Terms of Use and Privacy Policy
         </Disclaimer>
-        <Button onClick={() => login()}>
+        <Button onClick={() => handleAuthClick()}>
             Sign in with Google
         </Button>
         </Wrapper>
