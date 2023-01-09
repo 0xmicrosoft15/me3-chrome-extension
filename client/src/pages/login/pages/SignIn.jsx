@@ -6,6 +6,7 @@ import { encryption, setCurrency, uploadFile } from '../functions/main_functions
 import { googleInstance } from '../../../utils/google'
 import { handleAuthClick } from '../../../utils/googlev2'
 import jwt_decode from 'jwt-decode'
+import { Encrypt, getRandomString } from '../../../utils/EncryptDecrpyt'
 
 const Container = styled.div`
     width: 100%;
@@ -76,16 +77,45 @@ const SignIn = () => {
         tokenClient.requestAccessToken()
     }
 
-    async function uploadFile(accessToken) {
-        var fileContent = 'Hello world'
-        var file = new Blob([fileContent], {type: 'text/plain'})
-        var metdata = {
-            'name' : 'sample-file-via-js', // Filename at Google Drive 
+    const data = {"uid": "aaa", "password": "bbb", "salt": "ccc", "token": "ddd"}
+
+    function extractData(data) {
+        // var obj = JSON.parse(data)
+        // var token = obj.token
+        var password = data.password
+        var salt = data.salt
+        var uid = data.uid
+        var data = "12334566"
+        const fileObject = {
+            uid: uid,
+            password: password,
+            salt: salt,
+            key: data
+        }
+        console.log(fileObject)
+        return fileObject
+        // Encrypt(getRandomString(40) + new Date().getTime(), password)
+        // .then(data => {
+        //     const fileObject = {
+        //         uid: uid,
+        //         password: password,
+        //         salt: salt,
+        //         key: data
+        //     }
+        //     return fileObject
+        // })
+    }
+
+    async function uploadFileToGDrive(accessToken) {
+        var fileContent = extractData(data)
+        var file = new Blob([JSON.stringify(fileContent)], {type: 'plain/text'})
+        var metadata = {
+            'name' : 'ME3_DEV_KEY.json', // Filename at Google Drive 
             'mimeType': 'text/plain'
         }
         var accessToken = accessToken
         var form = new FormData()
-        form.append('metadata', new Blob([JSON.stringify(metdata)], {type:'application/json'}))
+        form.append('metadata', new Blob([JSON.stringify(metadata)], {type:'application/json'}))
         form.append('file', file)
 
         var xhr = new XMLHttpRequest()
@@ -121,7 +151,7 @@ const SignIn = () => {
                 console.log(access_token)
                 //we now have access to live token to use for any google API
                 if (tokenResponse && tokenResponse.access_token){
-                    uploadFile(access_token)
+                    uploadFileToGDrive(access_token)
                 }
             }
         }))
