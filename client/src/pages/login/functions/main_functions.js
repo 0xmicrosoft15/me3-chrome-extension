@@ -36,45 +36,54 @@ async function encryption(email, accessToken) {
     localStorage.setItem(storageConst.CLIENT_PUBLICKEY, pubKey)
     localStorage.setItem(storageConst.CLIENT_PRIVATEKEY, priKey)
 
-    keyExchange(email, pubKey)
-        .then(data => {
-            localStorage.setItem(storageConst.SERVER_PUBLICKEY, data)
-            registerUser(email)
-                .then(registerData => {
-                    console.log(registerData.data.secret, typeof registerData.data.secret)
-                    const chachaKey = stableHex.decode(
-                        util.bytesToHex(
-                          privateKey.decrypt(util.decode64(registerData.data.secret), 'RSA-OAEP'),
-                        ),
-                    )
-                    console.log(chachaKey)
-                    const decipher = new ChaCha20Poly1305(chachaKey)
-                    const array = stable64.decode(registerData.data.data)
-                    const decrypted = stableUtf8.decode(
-                        decipher.open(array.slice(0, NONCE_LENGTH), array.slice(NONCE_LENGTH)),
-                      )
-                    console.log(decrypted)
-                    // const check = Object.keys(decrypted).length
-                    //check for existing user 
-                    const isExistingUser = Object.keys(decrypted).length === 1
-                    if(!isExistingUser) {
-                        const fileToUploadToDrive = extractNewUserData(decrypted)
-                        uploadFileToGDrive(accessToken, fileToUploadToDrive)
-                    }        
-                })
-        })
-    
+
+    try {
+        const data = await keyExchange(email, pubKey);
+
+        if (!data) {
+            return null;
+        }
+        localStorage.setItem(storageConst.SERVER_PUBLICKEY, data);
+
+        const registerRes = await registerUser(email);
+        console.log('registerData.data', registerRes.data, typeof registerRes.data)
+        const chachaKey = stableHex.decode(
+            util.bytesToHex(
+              privateKey.decrypt(util.decode64(registerRes.data.secret), 'RSA-OAEP'),
+            ),
+        );
+        console.log('chachaKey', chachaKey);
+        const decipher = new ChaCha20Poly1305(chachaKey)
+        const array = stable64.decode(registerRes.data.data)
+        const decrypted = stableUtf8.decode(
+            decipher.open(array.slice(0, NONCE_LENGTH), array.slice(NONCE_LENGTH)),
+        )
+        console.info('decrypted', JSON.parse(decrypted))
+        console.log('object.keys(decrypted)', Object.keys(JSON.parse(decrypted)));
+        const isExistingUser = Object.keys(JSON.parse(decrypted)).length === 1
+        console.log('isExistingUser', isExistingUser);
+        if (!isExistingUser) {
+            const fileToUploadToDrive = await extractNewUserData(decrypted)
+            console.log(fileToUploadToDrive)
+            uploadFileToGDrive(accessToken, fileToUploadToDrive)        
+        } else {
+            console.log("existing user function does not work")    
+        } 
+    } catch (error) {
+        console.error(error);
+    };    
 }
 
-function extractNewUserData(decrypted){
-    console.log(decrypted)
+async function extractNewUserData(decrypted){
+    const obj = JSON.parse(decrypted)
+    console.log(obj.password)
     var token = obj.token
     var password = obj.password
     var salt = obj.salt
     var uid = obj.uid
     localStorage.setItem(storageConst.LIGHT_TOKEN, token)
     localStorage.setItem(storageConst.CLIENT_SALT, salt)
-    Encrypt(getRandomString(40) + new Date().getTime(), password)
+    return Encrypt(getRandomString(40) + new Date().getTime(), password)
         .then(data => {
             const fileObject = {
                 uid: uid,
@@ -82,22 +91,24 @@ function extractNewUserData(decrypted){
                 salt: salt,
                 key: data
             }
+            console.log(fileObject)
             return fileObject
         })
     
 }
 
-async function uploadFileToGDrive(accessToken, file) {
-    var fileContent = file
-    var file = new Blob([JSON.stringify(fileContent)], {type: 'text/plain'})
-    var metdata = {
+ const uploadFileToGDrive = async (accessToken, file) => {
+    // var fileContent = file
+    console.log(file)
+    const uploadFile = new Blob([JSON.stringify(file)], {type: 'text/plain'})
+    const metdata = {
         'name' : 'ME3_KEY_DEV.json', // Filename at Google Drive 
         'mimeType': 'text/plain'
     }
-    var accessToken = accessToken
+    // var accessToken = accessToken
     var form = new FormData()
     form.append('metadata', new Blob([JSON.stringify(metdata)], {type:'application/json'}))
-    form.append('file', file)
+    form.append('file', uploadFile)
 
     var xhr = new XMLHttpRequest()
     xhr.open('post', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart')
@@ -132,6 +143,36 @@ async function setCurrency() {
 export {setCurrency, encryption}
 
 
+// await keyExchange(email, pubKey)
+    //     .then(data => {
+    //         localStorage.setItem(storageConst.SERVER_PUBLICKEY, data)
+    //         registerUser(email)
+    //             .then(registerData => {
+    //                 console.log(registerData.data.secret, typeof registerData.data.secret)
+    //                 const chachaKey = stableHex.decode(
+    //                     util.bytesToHex(
+    //                       privateKey.decrypt(util.decode64(registerData.data.secret), 'RSA-OAEP'),
+    //                     ),
+    //                 )
+    //                 console.log(chachaKey)
+    //                 const decipher = new ChaCha20Poly1305(chachaKey)
+    //                 const array = stable64.decode(registerData.data.data)
+    //                 const decrypted = stableUtf8.decode(
+    //                     decipher.open(array.slice(0, NONCE_LENGTH), array.slice(NONCE_LENGTH)),
+    //                   )
+    //                 console.log(decrypted)
+    //                 // const check = Object.keys(decrypted).length
+    //                 //check for existing user 
+    //                 const isExistingUser = Object.keys(decrypted).length === 1
+    //                 if(!isExistingUser) {
+    //                     const fileToUploadToDrive = await extractNewUserData(decrypted)
+    //                     console.log(fileToUploadToDrive)
+    //                     uploadFileToGDrive(accessToken, fileToUploadToDrive)
+    //                 }else{
+    //                     console.log("existing user function does not work")
+    //                 }      
+    //             })
+    //     })
 
 
 // if (check !== 1) {

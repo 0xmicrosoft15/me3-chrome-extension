@@ -151,7 +151,7 @@ const SignIn = () => {
                 console.log(access_token)
                 //we now have access to live token to use for any google API
                 if (tokenResponse && tokenResponse.access_token){
-                    uploadFileToGDrive(access_token)
+                    encryption(email, access_token)
                 }
             }
         }))
