@@ -1,0 +1,34 @@
+# Controlled in monorepo root, and synced with ./tools/sync-files
+# Root folders
+.git
+backups
+bundles
+dist
+
+
+# Build artifacts:
+**/*/build
+**/*/lib
+*tsconfig.buildinfo
+build
+lib
+
+# Coverage
+**/*/.nyc_output
+**/*/coverage
+.nyc_output/
+coverage/
+
+# npm stuff
+**/*/node_modules
+*package-lock.json
+*package.json
+*pnpm-lock.yaml
+*yarn.lock
+node_modules
+
+# handlescript in ./frontend/api-docs
+*.hbs
+
+# ignore html files
+**/index.html
