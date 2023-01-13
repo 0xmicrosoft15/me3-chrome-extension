@@ -1,10 +1,10 @@
 import Dexie from 'dexie'
 
 //Create an instance of new Dexie db 
-export const db = new Dexie('myDatabase')
+export const databaseInstance = new Dexie('myDatabase')
 
 //Create schemas for tables to be stored in db
-db.version.stores({
+databaseInstance.version(1).stores({
     chain_list: "++id, chain, name, symbol, series, chain_id, node, sort, chain_icon, symbol_icon, tx_url, support_nft, support_dapp, pin_status, is_delete, coin_type", //blockchain list 
     wallet_list: "++id, chain, name, address, password, seed, password_tip, private_key, number, timestamp, type, is_backup, main_id", // wallet list 
     current_wallet: "++id, chain, name, address, password, seed, password_tip, private_key, number, timestamp, type, is_backup, main_id, wid", // current wallet 
@@ -20,7 +20,7 @@ db.version.stores({
 
 //ADD
 //Add wallet 
-export async function addWallet(walletObj) {
+export async function addWallet(db,walletObj) {
     try{
         await db.wallet_list.add(
             {
@@ -43,7 +43,7 @@ export async function addWallet(walletObj) {
     }   
 }
 //Add chain 
-export async function addChain(chainObj){
+export async function addChain(db, chainObj){
     try{
         await db.chain_list.add(
             {
@@ -51,7 +51,7 @@ export async function addChain(chainObj){
                 name: chainObj.name, 
                 symbol: chainObj.symbol,
                 series:  chainObj.series,
-                chain_id: chainObj.chainI,
+                chain_id: chainObj.chainId,
                 node: chainObj.node,
                 sort: chainObj.sort,
                 chain_icon: chainObj.chain_icon,
@@ -69,7 +69,7 @@ export async function addChain(chainObj){
     }   
 }
 //Add Mapping 
-export async function addMapping(mapObj){
+export async function addMapping(db, mapObj){
     try{
         await db.chain_list.add(
             {
@@ -85,80 +85,89 @@ export async function addMapping(mapObj){
 }
 //GET
 //Get all wallets 
-export async function getAllWallets(){
+export async function getAllWallets(db){
     try{
-        await db.wallet_list.toArray()
+        const res = await db.wallet_list.toArray()
+        return res
     }catch(error){
         console.log(error)
     }   
 }
 //Get all chains 
-export async function getAllChains(){
+export async function getAllChains(db){
     try{
-        await db.chain_list.toArray()
+        const res = await db.chain_list.toArray()
+        return res
     }catch(error){
         console.log(error)
     }   
 }
 //Get all not backed up wallets 
-export async function getNotBackedUpWallets(){
+export async function getNotBackedUpWallets(db){
     try{
-        await db.wallet_list.where("is_backup").equals(0).toArray()
+        const res = await db.wallet_list.where("is_backup").equals(0).toArray()
+        return res
     }catch(error){
         console.log(error)
     }   
 }
 //Get wallet for chain 
-export async function getChainWallet(chainName){
+export async function getChainWallet(db, chainName){
     try{
-        await db.wallet_list.where("chain").equals(chainName + " chain").toArray()
+        const res = await db.wallet_list.where("chain").equals(chainName + " chain").toArray()
+        return res
     }catch(error){
         console.log(error)
     }   
 }
 //Get btc mapping 
-export async function getBtcMapping(wid){
+export async function getBtcMapping(db, wid){
     try{
-        await db.wallet_list.where("wid").equals(wid + "id").toArray()
+        const res = await db.wallet_list.where("wid").equals(wid + "id").toArray()
+        return res
     }catch(error){
         console.log(error)
     }   
 }
 //Get symbol for chain 
-export async function getChainSymbol(chainName){
+export async function getChainSymbol(db, chainName){
     try{
-        await db.chain_list.where("chain").equals(chainName + " chain").get("symbol")
+        const res = await db.chain_list.where("chain").equals(chainName + " chain").get("symbol").toArray()
+        return res
     }catch(error){
         console.log(error)
     }   
 }
 //Get series of chain 
-export async function getChainSeries(chainName){
+export async function getChainSeries(db, chainName){
     try{
-        await db.chain_list.where("chain").equals(chainName + " chain").get("series")
+        const res = await db.chain_list.where("chain").equals(chainName + " chain").get("series").toArray()
+        return res
     }catch(error){
         console.log(error)
     }   
 }
 //Get name from chainid 
-export async function getChainsFromChainId(chainId){
+export async function getChainsFromChainId(db, chainId){
     try{
-        await db.chain_list.where("chain_id").equals(chainId)
+        const res = await db.chain_list.where("chain_id").equals(chainId).toArray()
+        return res
     }catch(error){
         console.log(error)
     }   
 }
 //get chain detail
-export async function getChainDetail(chainName){
+export async function getChainDetail(db, chainName){
     try{
-        await db.chain_list.where("chain").equals(chainName + " chain")
+        const res = await db.chain_list.where("chain").equals(chainName + " chain").toArray()
+        return res
     }catch(error){
         console.log(error)
     }   
 }
 //DELETE
 //Delete all chains 
-export async function deleteAllChains(){
+export async function deleteAllChains(db){
     try{
         await db.chain_list.clear()
     }catch(error){
@@ -166,7 +175,7 @@ export async function deleteAllChains(){
     }   
 }
 //Delete chain 
-export async function deleteChain(chainName){
+export async function deleteChain(db, chainName){
     try{
         await db.chain_list.where("chain").equals(chainName + " chain").delete()
     }catch(error){
@@ -174,16 +183,16 @@ export async function deleteChain(chainName){
     }   
 }
 //Delete all tables 
-export async function clearDatabase(){
+export async function clearDatabase(db){
     try{
         await db.clear()
     }catch(error){
-        console.log(error)
+        console.log(error) 
     }   
 }
 //UPDATE
 //Update backup status 
-export async function updateBackUpStatus(id){
+export async function updateBackUpStatus(db, id){
     try{
         await db.wallet_list.where("id").equals(id).modify({is_backup:1})
     }catch(error){
