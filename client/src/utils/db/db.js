@@ -132,8 +132,9 @@ export async function getBtcMapping(db, wid){
 //Get symbol for chain 
 export async function getChainSymbol(db, chainName){
     try{
-        const res = await db.chain_list.where("chain").equals(chainName + " chain").get("symbol").toArray()
-        return res
+        const res = await db.chain_list.where("chain").equals(chainName + " chain").toArray()
+        const symbol = res[0].symbol
+        return symbol
     }catch(error){
         console.log(error)
     }   
@@ -185,9 +186,11 @@ export async function deleteChain(db, chainName){
 //Delete all tables 
 export async function clearDatabase(db){
     try{
-        await db.clear()
+        await db.delete().then(()=>{
+            console.log("Database successfully deleted!")
+        })
     }catch(error){
-        console.log(error) 
+        console.error("Could not delete database")
     }   
 }
 //UPDATE
