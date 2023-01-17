@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@blitslabs/filecoin-js-signer": "^1.0.6",
+    "@polkadot/util": "^10.2.6",
+    "@polkadot/util-crypto": "^10.2.6"
+  }
+}
