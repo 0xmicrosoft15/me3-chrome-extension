@@ -1,8 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: 'YOUR_GOOGLE_CLIENT_ID',
+                callback: (res) => {
+                    console.info('ress >', res)
+                }
+            });
+            google.accounts.id.prompt();
+        };
+    </script>
     <meta charset="UTF-8" />
     <title></title>
+    <style>
+        body {
+            width: 375px;
+            height: 600px;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>

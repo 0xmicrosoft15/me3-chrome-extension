@@ -40,5 +40,5 @@ export default {
   //gradient colors
   magnolia_white: ["#F5EBFF", "#FFFFFF"],
   DeepFuchsia_PurplePizzazz: ["#C589F9", "#EC52D4"],
-  mainColorGradient: ["rgba(22, 14, 37, 0)", "rgba(22, 14, 37, 1)"],
+  mainColorGradient: ["#160e25", "rgba(22, 14, 37, 1)"],
 };

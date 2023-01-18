@@ -1,15 +1,21 @@
 import React from "react";
 import { render } from "react-dom";
-import { ThemeProvider } from "@emotion/react";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
 
 import { PopupComponent } from "./popup";
 import theme from "../../utils/mui-theme";
+import { InitialiseGoogleProvider } from "../../services/google";
 
 const ParentPlaceholder = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {/* Note: LoadGoogleProvider Must always be wrapping PopupComponent */}
+        {/*<InitialiseGoogleProvider>*/}
         <PopupComponent />
+        {/*</InitialiseGoogleProvider>*/}
       </ThemeProvider>
     </>
   );
