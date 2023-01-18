@@ -1,22 +1,24 @@
-import React from "react";
+import React, { Children, useEffect, useState } from "react";
 import { makeStyles } from "tss-react/mui";
 import { Theme } from "@mui/material";
 import colours from "../../consts/colours";
 
 import Grid from "@mui/material/Grid";
+import { SignInPage } from "../../components/onboarding/SignIn.page";
 
 const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.background.default,
-    height: "600px",
-    width: "400px",
+    height: "100vh",
+    width: "100vw",
   },
   parentText: {
-    color: colours.black,
+    color: "black",
     textAlign: "center",
   },
 }));
 
+// ROUTER SHOULD BE HERE
 export const PopupComponent = () => {
   const { classes } = useStyles();
 
@@ -25,7 +27,7 @@ export const PopupComponent = () => {
       <div className={classes.root}>
         <Grid container className={classes.parentText}>
           <Grid item>
-            This is the main component to contain navBar and tabBar
+            <SignInPage />
           </Grid>
         </Grid>
       </div>

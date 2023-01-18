@@ -7,7 +7,7 @@ var webpack = require("webpack"),
   TerserPlugin = require("terser-webpack-plugin");
 var { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-const ASSET_PATH = process.env.ASSET_PATH || "/";
+const ASSET_PATH = process.env.ASSET_PATH || "/assets";
 
 var alias = {
   "react-dom": "@hot-loader/react-dom",
@@ -82,6 +82,10 @@ var options = {
         ],
         exclude: /node_modules/,
       },
+      {
+        test: new RegExp(".(" + fileExtensions.join("|") + ")$"),
+        type: "asset/resource",
+      },
     ],
   },
   resolve: {
@@ -115,7 +119,7 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: "src/assets/logo.png",
+          from: "src/assets/images/logo/logo.png",
           to: path.join(__dirname, "build"),
           force: true,
         },
@@ -124,7 +128,7 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: "src/assets/logo_small.png",
+          from: "src/assets/images/logo/logo_small.png",
           to: path.join(__dirname, "build"),
           force: true,
         },
