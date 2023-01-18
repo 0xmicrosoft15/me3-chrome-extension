@@ -55,22 +55,54 @@ import {
   }
 
   function createBtcWallet(mnemonic, network) {
+    try{
+        let wallets = []
+        const seed = bip39.mnemonicToSeedSync(mnemonic)
+        const root = bitcoin.bip32.fromSeed(seed)
 
-    const seed = bip39.mnemonicToSeedSync(mnemonic)
-    const root = bitcoin.bip32.fromSeed(seed)
+        const path = "m/44'/3'/0'/0/0"
+        const child = root.derivePath(seed)
 
-    const path = "m/44'/3'/0'/0/0"
-    const child = root.derivePath(seed)
+        const addP2PKH = genP2PKHAdd(child, network)
+        const addP2WPKH = genP2WPKHAdd(child, network)
 
-    const {address} = bitcoin.payments.p2sh({
+        wallets.push({
+            "address": addP2PKH,
+            "type": "P2PKH",
+            "address_P2PKH": addP2PKH,
+            "address_P2WPKH": addP2WPKH,
+            "privateKey": child
+        })
+
+        return {
+            "seed": mnemonic,
+            "list": wallets
+        }
+    }catch(error){
+        console.log("Error ")
+    }
+  }
+
+function genP2WPKHAdd(keyPair, network) {
+    const p2wpkh =  bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2wpkh({
             pubkey: child.pubkey,
             network: network,
         }),
         network: network
     })
-    return address 
-  }
+    address = p2wpkh.address
+    return address
+}
+
+function genP2PKHAdd(keyPair, network) {
+    const p2pkh = bitcoin.payments.p2pkh({
+        pubkey: keyPair.publicKey,
+        network
+    })
+    address = p2pkh.address
+    return address
+}
 
 
 async function createBTCSeed(count, index, mnemonic, seed, testnet = true,) {
