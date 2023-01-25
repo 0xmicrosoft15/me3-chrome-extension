@@ -19,8 +19,19 @@ import {
                 createBtcWallet(mnemonic, network)
             }
             case "ltc": {
-                
+                const network = {
+                    messagePrefix: '\x19Litecoin Signed Message:\n',
+                    bip32: {
+                        public: 0x019da462,
+                        private: 0x019d9cfe
+                    },
+                    pubKeyHash: 0x30,
+                    scriptHash: 0x32,
+                    wif: 0xb0
+                }
+                createBtcWallet(mnemonic, network)
             }
+                
             case "bch": {
                 const network = bitcoincash.networks.testnet
                 createBtcWallet(mnemonic, network)
@@ -45,7 +56,8 @@ import {
                 }
             }
             case "fil": {
-
+                const network = "mainnet"
+                createFilWallet(mnemonic, network)
             }
             default:
                 break
@@ -61,7 +73,7 @@ import {
         const root = bitcoin.bip32.fromSeed(seed)
 
         const path = "m/44'/3'/0'/0/0"
-        const child = root.derivePath(seed)
+        const child = root.derivePath(path)
 
         const addP2PKH = genP2PKHAdd(child, network)
         const addP2WPKH = genP2WPKHAdd(child, network)
@@ -86,7 +98,7 @@ import {
 function genP2WPKHAdd(keyPair, network) {
     const p2wpkh =  bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2wpkh({
-            pubkey: child.pubkey,
+            pubkey: keyPair.pubkey,
             network: network,
         }),
         network: network
@@ -104,47 +116,29 @@ function genP2PKHAdd(keyPair, network) {
     return address
 }
 
+function createFilWallet(mnemonic, network) {
+    try{
+        let wallets = []
+        const seed = bip39.mnemonicToSeedSync(mnemonic)
+        const root = bitcoin.bip32.fromSeed(seed)
 
-async function createBTCSeed(count, index, mnemonic, seed, testnet = true,) {
-    try {
-        let network;
-        if (testnet) {
-            network = bitcoinlib.networks.testnet;
-        } else {
-            network = bitcoinlib.networks.bitcoin;
-        }
+        const path = "m/44'/461'/0'/0/0"
+        const child = root.derivePath(path)
+        const privateKey = Buffer.from(child.privateKey).toString("hex")
 
-        let wallets = [];
-        let currentSeed;
-        if (mnemonic) {
-            currentSeed = seed;
-        } else {
-            mnemonic = generateMnemonic();
-            currentSeed = await getSeedFromMnemonic(mnemonic);
-        }
+        const result = keyPairFromPrivateKey(privateKey, network)
 
-        const root = bitcoin.bip32.fromSeed(currentSeed, network);
-        let path = chooseBipSeed('44', index, testnet);
-        let wif = root.derivePath(path).toWIF();
-        const keyPair = bitcoin.ECPair.fromWIF(wif, network);
-        // 普通地址
-        let address_P2PKH = generateAddress('P2PKH', keyPair, network);
-        // 隔离见证地址
-        let witness_P2WPKH = generateAddress('P2WPKH', keyPair, network);
         wallets.push({
-            "address": witness_P2WPKH,
-            "type": "P2PKH",
-            "address_P2PKH": address_P2PKH,
-            "address_P2WPKH": witness_P2WPKH,
-            "privateKey": wif
-        });
+            "address": result.address,
+            "privateKey": result.privateKey
+        })
 
         return {
             "seed": mnemonic,
             "list": wallets
-        };
-
-    } catch (error) {
-        logger("Error", error)
+        }
+    }catch(error){
+        console.log(error)
     }
+
 }
