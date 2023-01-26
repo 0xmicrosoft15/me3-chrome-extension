@@ -1,5 +1,5 @@
-import { requestOfGet } from "../utils/helpers";
-import apiConst from '../config/constants.js'
+import { requestOfGet } from "../../utils/helpers.js";
+import apiConst from '../../config/constants.js'
 
 export async function getAllChains(params = {}) {
     let result = await requestOfGet({

@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Navbar, Topbar, Db} from './components'
+import { Navbar, Topbar} from './components'
 import {AllSet, SignIn} from "./pages/login/pages"
 import { Main, Empty,Swap, History, Settings } from './pages/wallet/pages'
 import {Route, Routes} from "react-router-dom"
+import {Wallet} from "./tests"
 
 const Wrapper = styled.div`
     display: flex;
@@ -25,7 +26,7 @@ function App() {
   return (
     <Wrapper>
     <Container>
-      <Db/>
+      <Wallet/>
       {/* <SignIn/> */}
       {/* <Topbar/>
         <Routes>

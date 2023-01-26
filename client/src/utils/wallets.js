@@ -68,7 +68,7 @@ import {
 
   function createBtcWallet(mnemonic, network) {
     try{
-        let wallets = []
+        const wallets = []
         const seed = bip39.mnemonicToSeedSync(mnemonic)
         const root = bitcoin.bip32.fromSeed(seed)
 
@@ -79,11 +79,11 @@ import {
         const addP2WPKH = genP2WPKHAdd(child, network)
 
         wallets.push({
-            "address": addP2PKH,
-            "type": "P2PKH",
-            "address_P2PKH": addP2PKH,
-            "address_P2WPKH": addP2WPKH,
-            "privateKey": child
+            address: addP2PKH,
+            type: "P2PKH",
+            address_P2PKH: addP2PKH,
+            address_P2WPKH: addP2WPKH,
+            privateKey: child
         })
 
         return {
