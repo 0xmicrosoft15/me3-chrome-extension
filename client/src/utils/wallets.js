@@ -4,12 +4,18 @@ import {
     encodeAddress,
     mnemonicToMiniSecret,
     sr25519PairFromSeed,
-  } from "@polkadot/util-crypto"
-  import { u8aToHex } from "@polkadot/util"
-  import { ethers } from "ethers"
-  import bitcoin from "bitcoinjs-lib"
-  import bip39 from "bip39"
-  import bitcoincash from "@pefish/bch-bitcoinjs-lib"
+}from "@polkadot/util-crypto"
+import {u8aToHex} from "@polkadot/util"
+import { ethers } from "ethers"
+import * as bitcoin from "bitcoinjs-lib"
+import * as bip39 from "bip39"
+import * as bitcoincash from "@pefish/bch-bitcoinjs-lib"
+import  BIP32Factory from "bip32"
+import * as ecc from 'tiny-secp256k1'
+import {keyPairFromPrivateKey} from "@nodefactory/filecoin-address"
+import { Buffer } from "buffer"
+
+const bip32 = BIP32Factory(ecc)
 
   export default async function createWallet(series, mnemonic){
 
@@ -64,13 +70,17 @@ import {
         }
         return undefined
 
-  }
+}
+
+  export async function generateMnemonic() {
+    return ethers.utils.entropyToMnemonic(ethers.utils.randomBytes(16))
+}
 
   function createBtcWallet(mnemonic, network) {
     try{
         const wallets = []
         const seed = bip39.mnemonicToSeedSync(mnemonic)
-        const root = bitcoin.bip32.fromSeed(seed)
+        const root = bip32.fromSeed(seed)
 
         const path = "m/44'/3'/0'/0/0"
         const child = root.derivePath(path)
@@ -103,7 +113,7 @@ function genP2WPKHAdd(keyPair, network) {
         }),
         network: network
     })
-    address = p2wpkh.address
+    const address = p2wpkh.address
     return address
 }
 
@@ -112,7 +122,7 @@ function genP2PKHAdd(keyPair, network) {
         pubkey: keyPair.publicKey,
         network
     })
-    address = p2pkh.address
+    const address = p2pkh.address
     return address
 }
 
@@ -120,7 +130,7 @@ function createFilWallet(mnemonic, network) {
     try{
         let wallets = []
         const seed = bip39.mnemonicToSeedSync(mnemonic)
-        const root = bitcoin.bip32.fromSeed(seed)
+        const root = bip32.fromSeed(seed)
 
         const path = "m/44'/461'/0'/0/0"
         const child = root.derivePath(path)
