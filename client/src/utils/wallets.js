@@ -13,7 +13,7 @@ import * as bitcoincash from "@pefish/bch-bitcoinjs-lib"
 import  BIP32Factory from "bip32"
 import * as ecc from 'tiny-secp256k1'
 import {keyPairFromPrivateKey} from "@nodefactory/filecoin-address"
-import { Buffer } from "buffer"
+// import { Buffer } from "buffer"
 
 const bip32 = BIP32Factory(ecc)
 
