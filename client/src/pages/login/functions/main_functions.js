@@ -1,14 +1,14 @@
 import { retrieveAuthData, saveAuthData } from "../../../api/config/storage.js"
 import storageConst from "../../../api/config/storage.js"
-import { keyExchange, registerUser, setFileId, uploadFileGdrive } from "../../../api/login/loginApis.js"
+import { keyExchange, registerUser, setFileId, uploadFileGdrive } from "../../../api/login"
 import { Encrypt, getRandomString } from "../../../utils/EncryptDecrpyt.js"
 import { logger } from "../../../utils/Log.js"
 // import { getAllWallets } from "../../../database/sql.js"
 import apiConst from '../../../api/config/constants'
-import { getSupportCurrency } from "../../../api/fetch/getSupportCurrency.js"
+import { getSupportCurrency } from "../../../api/getSupportCurrency.js"
 import {useDispatch} from 'react-redux'
 import { setCurrentCurrency } from "../../../redux/Action/CurrencyAction.js"
-import { uploadFileToDrive } from "../../../api/fetch/uploadFileToDrive.js"
+import { uploadFileToDrive } from "../../../api/uploadFileToDrive.js"
 import {pki, asn1, util} from 'node-forge'
 import * as stableHex from '@stablelib/hex'
 import * as stable64 from '@stablelib/base64'

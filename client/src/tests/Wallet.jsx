@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import React from 'react'
-import {getAllChains }from "../api/fetch/chains/getChainLists"
+import {getAllChains }from "../api/chain"
 import { ethers } from 'ethers'
 import { generateMnemonic } from '../utils/wallets'
 
@@ -27,8 +27,8 @@ const handleGetAllChains = async () => {
                                      
                                 })
     console.log(refined)
-    const mnemonic = await generateMnemonic()
-    console.log(mnemonic)
+    // const mnemonic = await generateMnemonic()
+    // console.log(mnemonic)
 
 }
 

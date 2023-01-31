@@ -1,5 +1,5 @@
-import { getHeader } from "../utils/helpers"
-import apiConst from '../config/constants.js'
+import { getHeader } from "./utils/helpers"
+import apiConst from './config/constants.js'
 import axios from "axios"
 
 export async function getSupportCurrency() {
