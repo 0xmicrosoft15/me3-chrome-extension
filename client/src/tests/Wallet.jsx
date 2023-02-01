@@ -27,8 +27,8 @@ const handleGetAllChains = async () => {
                                      
                                 })
     console.log(refined)
-    // const mnemonic = await generateMnemonic()
-    // console.log(mnemonic)
+    const mnemonic = await generateMnemonic()
+    console.log(mnemonic)
 
 }
 
