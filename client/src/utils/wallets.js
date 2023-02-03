@@ -10,21 +10,21 @@ import { ethers } from "ethers"
 import * as bip39 from "bip39"
 import * as bitcoin from "bitcoinjs-lib"
 import * as bitcoincash from "@pefish/bch-bitcoinjs-lib"
-import BIP32Factory from "bip32"
+// import {fromSeed} from "bip32"
 
-import ecc from '@bitcoinerlab/secp256k1'
+// import ecc from '@bitcoinerlab/secp256k1'
 import {keyPairFromPrivateKey} from "@nodefactory/filecoin-address"
 // import { Buffer } from "buffer"
 
-const bip32 = BIP32Factory(ecc)
+// const bip32 = BIP32Factory(ecc)
 // console.log(Buffer)
 
-  export default async function createWallet(series, mnemonic){
+  export async function createWallet(series, mnemonic){
 
         switch(series) {
             case "btc": {
                 const network = bitcoin.networks.testnet
-                createBtcWallet(mnemonic, network)
+                createBtcWallet(mnemonic, network)            
             }
             case "ltc": {
                 const network = {
@@ -37,12 +37,16 @@ const bip32 = BIP32Factory(ecc)
                     scriptHash: 0x32,
                     wif: 0xb0
                 }
-                createBtcWallet(mnemonic, network)
+                createBtcWallet(mnemonic, network)   
             }
                 
             case "bch": {
-                const network = bitcoincash.networks.testnet
-                createBtcWallet(mnemonic, network)
+                try{
+                    const network = bitcoincash.networks.testnet
+                    createBtcWallet(mnemonic, network)
+                }catch(error){
+                    console.log(error)
+                }
             }
 
             case "eth": {
@@ -63,32 +67,33 @@ const bip32 = BIP32Factory(ecc)
                     secretRaw: u8aToHex(secretKey)
                 }
             }
-            case "fil": {
-                const network = "mainnet"
-                createFilWallet(mnemonic, network)
-            }
-            default:
+            // case "fil": {
+            //     const network = "mainnet"
+            //     createFilWallet(mnemonic, network)
+            // }
+            default: {
+                console.log("wrong input for creeating wallet")
                 break
+            }
         }
-        return undefined
-
 }
 
   export async function generateMnemonic() {
     return ethers.utils.entropyToMnemonic(ethers.utils.randomBytes(16))
 }
 
-  function createBtcWallet(mnemonic, network) {
+  async function createBtcWallet(mnemonic, network) {
     try{
         const wallets = []
-        const seed = bip39.mnemonicToSeedSync(mnemonic)
-        const root = bip32.fromSeed(seed)
+        const seed = await bip39.mnemonicToSeedAsync(mnemonic)
+        const root = bitcoin.bip32.fromSeed(seed, network)
 
         const path = "m/44'/3'/0'/0/0"
-        const child = root.derivePath(path)
+        const child = root.derivePath(path).toWIF()
+        const keyPair = bitcoin.ECPair.fromWIF(child, network)
 
-        const addP2PKH = genP2PKHAdd(child, network)
-        const addP2WPKH = genP2WPKHAdd(child, network)
+        const addP2PKH = genP2PKHAdd(keyPair, network)
+        const addP2WPKH = genP2WPKHAdd(keyPair, network)
 
         wallets.push({
             address: addP2PKH,
@@ -103,14 +108,14 @@ const bip32 = BIP32Factory(ecc)
             "list": wallets
         }
     }catch(error){
-        console.log("Error ")
+        console.log('error: ', error)
     }
   }
 
 function genP2WPKHAdd(keyPair, network) {
     const p2wpkh =  bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2wpkh({
-            pubkey: keyPair.pubkey,
+            pubkey: keyPair.publicKey,
             network: network,
         }),
         network: network
@@ -128,29 +133,29 @@ function genP2PKHAdd(keyPair, network) {
     return address
 }
 
-function createFilWallet(mnemonic, network) {
-    try{
-        let wallets = []
-        const seed = bip39.mnemonicToSeedSync(mnemonic)
-        const root = bip32.fromSeed(seed)
+// // function createFilWallet(mnemonic, network) {
+// //     try{
+// //         let wallets = []
+// //         const seed = bip39.mnemonicToSeedAsync(mnemonic)
+// //         const root = fromSeed(seed)
 
-        const path = "m/44'/461'/0'/0/0"
-        const child = root.derivePath(path)
-        const privateKey = Buffer.from(child.privateKey).toString("hex")
+// //         const path = "m/44'/461'/0'/0/0"
+// //         const child = root.derivePath(path)
+// //         const privateKey = Buffer.from(child.privateKey).toString("hex")
 
-        const result = keyPairFromPrivateKey(privateKey, network)
+// //         const result = keyPairFromPrivateKey(privateKey, network)
 
-        wallets.push({
-            "address": result.address,
-            "privateKey": result.privateKey
-        })
+// //         wallets.push({
+// //             "address": result.address,
+// //             "privateKey": result.privateKey
+// //         })
 
-        return {
-            "seed": mnemonic,
-            "list": wallets
-        }
-    }catch(error){
-        console.log(error)
-    }
+// //         return {
+// //             "seed": mnemonic,
+// //             "list": wallets
+// //         }
+// //     }catch(error){
+// //         console.log(error)
+// //     }
 
-}
+// }

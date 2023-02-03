@@ -2,10 +2,10 @@ import styled from 'styled-components'
 import React from 'react'
 import {getAllChains }from "../api/chain"
 import { ethers } from 'ethers'
-import { generateMnemonic } from '../utils/wallets'
-
-
-
+import { generateMnemonic, createWallet } from '../utils/wallets'
+import { isCompositeComponentWithType } from 'react-dom/test-utils'
+import { mergeBreakpointsInOrder } from '@mui/system'
+const _ = require('lodash')
 
 const Container = styled.div``
 const Button = styled.button``
@@ -13,6 +13,7 @@ const Button = styled.button``
 const Wallet = () => {
 
 const handleGetAllChains = async () => {
+    const wallets = []
     const chains = await getAllChains()
     console.log(chains)
     const refined = chains.reduce(
@@ -26,10 +27,24 @@ const handleGetAllChains = async () => {
                                     return result 
                                      
                                 })
+    
+    console.log(chains[0])
     console.log(refined)
     const mnemonic = await generateMnemonic()
     console.log(mnemonic)
-
+    for (const[key,list] of Object.entries(chains[0])) {
+      console.log(key,list)
+      const wallet = await createWallet(key, mnemonic)
+      console.log(wallet)
+      if (!_.isEmpty(wallet)) {
+        wallets.push(_.map(list, (it) => _.merge(it,wallet)))
+      }
+    }
+    console.log(_.flatten(wallets))
+    return _.flatten(wallets)
+    
+    // const wallets = createWallet(refined.series, mnemonic)
+    // console.log(wallets)
 }
 
   return (
