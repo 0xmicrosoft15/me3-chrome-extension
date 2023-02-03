@@ -10,7 +10,7 @@ import { ethers } from "ethers"
 import * as bip39 from "bip39"
 import * as bitcoin from "bitcoinjs-lib"
 import * as bitcoincash from "@pefish/bch-bitcoinjs-lib"
-// import {fromSeed} from "bip32"
+import {fromSeed} from "bip32"
 
 // import ecc from '@bitcoinerlab/secp256k1'
 import {keyPairFromPrivateKey} from "@nodefactory/filecoin-address"
@@ -67,10 +67,10 @@ import {keyPairFromPrivateKey} from "@nodefactory/filecoin-address"
                     secretRaw: u8aToHex(secretKey)
                 }
             }
-            // case "fil": {
-            //     const network = "mainnet"
-            //     createFilWallet(mnemonic, network)
-            // }
+            case "fil": {
+                const network = "mainnet"
+                createFilWallet(mnemonic, network)
+            }
             default: {
                 console.log("wrong input for creeating wallet")
                 break
@@ -133,29 +133,29 @@ function genP2PKHAdd(keyPair, network) {
     return address
 }
 
-// // function createFilWallet(mnemonic, network) {
-// //     try{
-// //         let wallets = []
-// //         const seed = bip39.mnemonicToSeedAsync(mnemonic)
-// //         const root = fromSeed(seed)
+function createFilWallet(mnemonic, network) {
+    try{
+        let wallets = []
+        const seed = bip39.mnemonicToSeedAsync(mnemonic)
+        const root = fromSeed(seed)
 
-// //         const path = "m/44'/461'/0'/0/0"
-// //         const child = root.derivePath(path)
-// //         const privateKey = Buffer.from(child.privateKey).toString("hex")
+        const path = "m/44'/461'/0'/0/0"
+        const child = root.derivePath(path)
+        const privateKey = Buffer.from(child.privateKey).toString("hex")
 
-// //         const result = keyPairFromPrivateKey(privateKey, network)
+        const result = keyPairFromPrivateKey(privateKey, network)
 
-// //         wallets.push({
-// //             "address": result.address,
-// //             "privateKey": result.privateKey
-// //         })
+        wallets.push({
+            "address": result.address,
+            "privateKey": result.privateKey
+        })
 
-// //         return {
-// //             "seed": mnemonic,
-// //             "list": wallets
-// //         }
-// //     }catch(error){
-// //         console.log(error)
-// //     }
+        return {
+            "seed": mnemonic,
+            "list": wallets
+        }
+    }catch(error){
+        console.log(error)
+    }
 
-// }
+}
