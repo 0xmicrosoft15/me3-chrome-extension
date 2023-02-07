@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Navbar, Topbar } from './components'
+import { Navbar, Topbar, Db} from './components'
 import {AllSet, SignIn} from "./pages/login/pages"
 import { Main, Empty,Swap, History, Settings } from './pages/wallet/pages'
 import {Route, Routes} from "react-router-dom"
@@ -25,7 +25,8 @@ function App() {
   return (
     <Wrapper>
     <Container>
-      <SignIn/>
+      <Db/>
+      {/* <SignIn/> */}
       {/* <Topbar/>
         <Routes>
           <Route path="/" element={<Main/>}/>
