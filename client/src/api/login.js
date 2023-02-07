@@ -1,7 +1,7 @@
 import axios from "axios"
-import apiConst from '../config/constants.js'
-import configData from '../config/config.js'
-import { getHeader } from "../utils/helpers.js";
+import apiConst from './config/constants.js'
+import configData from './config/config.js'
+import { getHeader } from "./utils/helpers.js";
 
 const headers = {
     'Content-Type': 'application/json',

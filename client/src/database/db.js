@@ -20,7 +20,7 @@ databaseInstance.version(1).stores({
 
 //ADD
 //Add wallet 
-export async function addWallet(db,walletObj) {
+export async function addWalletDb(db,walletObj) {
     try{
         await db.wallet_list.add(
             {
@@ -43,7 +43,7 @@ export async function addWallet(db,walletObj) {
     }   
 }
 //Add chain 
-export async function addChain(db, chainObj){
+export async function addChainDb(db, chainObj){
     try{
         await db.chain_list.add(
             {
@@ -69,7 +69,7 @@ export async function addChain(db, chainObj){
     }   
 }
 //Add Mapping 
-export async function addMapping(db, mapObj){
+export async function addMappingDb(db, mapObj){
     try{
         await db.chain_list.add(
             {
@@ -85,7 +85,7 @@ export async function addMapping(db, mapObj){
 }
 //GET
 //Get all wallets 
-export async function getAllWallets(db){
+export async function getAllWalletsDb(db){
     try{
         const res = await db.wallet_list.toArray()
         return res
@@ -94,7 +94,7 @@ export async function getAllWallets(db){
     }   
 }
 //Get all chains 
-export async function getAllChains(db){
+export async function getAllChainsDb(db){
     try{
         const res = await db.chain_list.toArray()
         return res
@@ -103,7 +103,7 @@ export async function getAllChains(db){
     }   
 }
 //Get all not backed up wallets 
-export async function getNotBackedUpWallets(db){
+export async function getNotBackedUpWalletsDb(db){
     try{
         const res = await db.wallet_list.where("is_backup").equals(0).toArray()
         return res
@@ -112,7 +112,7 @@ export async function getNotBackedUpWallets(db){
     }   
 }
 //Get wallet for chain 
-export async function getChainWallet(db, chainName){
+export async function getChainWalletDb(db, chainName){
     try{
         const res = await db.wallet_list.where("chain").equals(chainName + " chain").toArray()
         return res
@@ -121,7 +121,7 @@ export async function getChainWallet(db, chainName){
     }   
 }
 //Get btc mapping 
-export async function getBtcMapping(db, wid){
+export async function getBtcMappingDb(db, wid){
     try{
         const res = await db.wallet_list.where("wid").equals(wid + "id").toArray()
         return res
@@ -130,7 +130,7 @@ export async function getBtcMapping(db, wid){
     }   
 }
 //Get symbol for chain 
-export async function getChainSymbol(db, chainName){
+export async function getChainSymbolDb(db, chainName){
     try{
         const res = await db.chain_list.where("chain").equals(chainName + " chain").toArray()
         const symbol = res[0].symbol
@@ -140,7 +140,7 @@ export async function getChainSymbol(db, chainName){
     }   
 }
 //Get series of chain 
-export async function getChainSeries(db, chainName){
+export async function getChainSeriesDb(db, chainName){
     try{
         const res = await db.chain_list.where("chain").equals(chainName + " chain").get("series").toArray()
         return res
@@ -149,7 +149,7 @@ export async function getChainSeries(db, chainName){
     }   
 }
 //Get name from chainid 
-export async function getChainsFromChainId(db, chainId){
+export async function getChainsFromChainIdDb(db, chainId){
     try{
         const res = await db.chain_list.where("chain_id").equals(chainId).toArray()
         return res
@@ -158,7 +158,7 @@ export async function getChainsFromChainId(db, chainId){
     }   
 }
 //get chain detail
-export async function getChainDetail(db, chainName){
+export async function getChainDetailDb(db, chainName){
     try{
         const res = await db.chain_list.where("chain").equals(chainName + " chain").toArray()
         return res
@@ -168,7 +168,7 @@ export async function getChainDetail(db, chainName){
 }
 //DELETE
 //Delete all chains 
-export async function deleteAllChains(db){
+export async function deleteAllChainsDb(db){
     try{
         await db.chain_list.clear()
     }catch(error){
@@ -176,7 +176,7 @@ export async function deleteAllChains(db){
     }   
 }
 //Delete chain 
-export async function deleteChain(db, chainName){
+export async function deleteChainDb(db, chainName){
     try{
         await db.chain_list.where("chain").equals(chainName + " chain").delete()
     }catch(error){
@@ -184,7 +184,7 @@ export async function deleteChain(db, chainName){
     }   
 }
 //Delete all tables 
-export async function clearDatabase(db){
+export async function clearDatabaseDb(db){
     try{
         await db.delete().then(()=>{
             console.log("Database successfully deleted!")
@@ -195,7 +195,7 @@ export async function clearDatabase(db){
 }
 //UPDATE
 //Update backup status 
-export async function updateBackUpStatus(db, id){
+export async function updateBackUpStatusDb(db, id){
     try{
         await db.wallet_list.where("id").equals(id).modify({is_backup:1})
     }catch(error){

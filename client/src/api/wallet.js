@@ -1,6 +1,6 @@
-import { getHeader, getRequestParams } from "../utils/helpers.js"
+import { getHeader, getRequestParams, requestOfGet } from "./utils/helpers.js"
 import axios from 'axios'
-import apiConst from '../config/constants.js'
+import apiConst from './config/constants.js'
 
 export async function addwallet(params) {
 
@@ -25,3 +25,12 @@ export async function addwallet(params) {
     })
 
 }
+
+export async function getPreviousWallets(params = {}) {
+    let result = await requestOfGet({
+        url: apiConst.GET_ALL_PREVIOUS_WALLET,
+        params
+    })
+    return result.data
+}
+

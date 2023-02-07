@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import React from 'react'
-import { addChain, addWallet, clearDatabase, databaseInstance, deleteAllChains, getAllChains, getChainDetail, getChainSymbol, getChainWallet } from '../utils/db/db'
+import { addChainDb, addWalletDb, clearDatabaseDb, databaseInstance, deleteAllChainsDb, getAllChainsDb, getChainDetailDb, getChainSymbolDb, getChainWalletDb } from '../database/db.js'
 
 const Container = styled.div``
 const Button = styled.button``
@@ -46,48 +46,48 @@ const Db = () => {
 
 const handleAddChain = async (wallet) => {
     databaseInstance.open();
-    await addChain(databaseInstance, wallet)
+    await addChainDb(databaseInstance, wallet)
     console.log("Finished handle click")
 }
 // handleClick(Obj)
 const handleGetChain = async (chainName) => {
     databaseInstance.open();
     // await getAllChains(databaseInstance)
-    const res = await getChainDetail(databaseInstance, chainName)
+    const res = await getChainDetailDb(databaseInstance, chainName)
     console.log(res)
 }
 
 const handleDelete = async () => {
     databaseInstance.open()
-    await deleteAllChains(databaseInstance)
+    await deleteAllChainsDb(databaseInstance)
     console.log("All delted!")
 }
 
 const handleGetChainSymbol = async (chainName) => {
     databaseInstance.open();
     // await getAllChains(databaseInstance)
-    const res = await getChainSymbol(databaseInstance, chainName)
+    const res = await getChainSymbolDb(databaseInstance, chainName)
     console.log(res)
 }
 
 const handleAddWallet = async(wallet) => {
     databaseInstance.open()
-    await addWallet(databaseInstance,wallet)
+    await addWalletDb(databaseInstance,wallet)
 }
 
 const handleGetChainWallet = async(chainName) => {
     databaseInstance.open()
-    const res = await getChainWallet(databaseInstance, chainName)
+    const res = await getChainWalletDb(databaseInstance, chainName)
     console.log(res)
 }
 
 const handleClearDb = async() => {
     databaseInstance.open()
-    await clearDatabase(databaseInstance)
+    await clearDatabaseDb(databaseInstance)
 }
   return (
     <Container>
-        <Button onClick={() => handleGetChainWallet("Eth")}>Button</Button>
+        <Button onClick={() => handleAddChain(Wallet)}>Button</Button>
     </Container>
   )
 }
