@@ -14,10 +14,11 @@ function spaceSupply(text) {
     return text + supplyStr
 }
 
-async function Encrypt(text, pwd = "") {
-    var salt = await retrieveAuthData(storageConst.CLIENT_SALT);
-    var password = await retrieveAuthData(storageConst.EXTERNAL_DB_REF_ID)
+async function Encrypt(text, pwd="") {
+    var salt = localStorage.getItem(storageConst.CLIENT_SALT);
+    var password = localStorage.getItem(storageConst.EXTERNAL_DB_REF_ID)
     let faceId = pwd ? pwd : password
+    console.log(faceId)
     if (salt == null) {
         throw "salt not null"
     }
