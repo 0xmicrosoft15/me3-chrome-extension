@@ -53,8 +53,9 @@ coverage/
 # eslint cache
 **/.eslintcache
 
-# vscode settings
+# IDE settings
 .vscode
+.idea
 
 # Ignore Docker Files
 docker/dynamodb/shared-local-instance.db
