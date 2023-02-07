@@ -19,6 +19,7 @@ import {keyPairFromPrivateKey} from "@nodefactory/filecoin-address"
 // const bip32 = BIP32Factory(ecc)
 // console.log(Buffer)
 
+//TODO: toggle testnet/mainnet using ENV var (BDE-468)
   export async function createWallet(series, mnemonic){
 
         switch(series) {

@@ -4,11 +4,10 @@ import apiConst from './config/constants.js'
 
 export async function getTotalAssets(params) {
 
-    const header = getHeader()
-    var config = {
+    const config = {
         method: 'get',
         url: apiConst.BASE_URL + apiConst.GET_TOTAL_ASSETS,
-        headers: header
+        headers: getHeader()
     }
     return new Promise(async function(resolve, reject){
         axios(config)
@@ -23,12 +22,11 @@ export async function getTotalAssets(params) {
 
 export async function getChainAssets(params) {
 
-    const header = getHeader()
     params = await getRequestParams(params)
-    var config = {
+    const config = {
         method: 'get',
         url: apiConst.BASE_URL + apiConst.GET_CHAIN_ASSETS + '?' + params,
-        headers: header
+        headers: getHeader()
     }
     return new Promise(async function(resolve,reject){
         axios(config)

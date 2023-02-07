@@ -4,12 +4,11 @@ import apiConst from './config/constants.js'
 
 export async function getGoogleAccessToken(params) {
 
-    const header = await getHeader()
     params = await  getRequestParams(params)
-    var config = {
+    const config = {
         method: 'get',
         url: apiConst.BASE_URL + apiConst.GET_ACCESS_TOKEN + '?' + params,
-        headers: header
+        headers: getHeader()
     }
     return new Promise(async function(resolve,reject){
         axios(config)

@@ -12,12 +12,11 @@ export async function getAllChains(params = {}) {
 
 export async function getFocusChains(params) {
     
-    const header = getHeader()
     params = await requestOfGet(params)
-    var config = { 
+    const config = { 
         method: 'get',
         url: apiConst.BASE_URL + apiConst.GET_FOCUS_CHAINS + "?" + params,
-        headers: header 
+        headers: getHeader()
     }
     return new Promise(async function(resolve,reject){
         axios(config)

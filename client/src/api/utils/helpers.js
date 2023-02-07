@@ -4,10 +4,10 @@ import configData from '../config/config.js'
 import apiConst from '../config/constants.js'
 import axios from "axios";
 
-async function getHeader() {
+function getHeader() {
 
-    let lightToken = await localStorage.getItem(storageConst.LIGHT_TOKEN)  
-    let currency = await localStorage.getItem(storageConst.LEGAL_DETAIL)
+    let lightToken = localStorage.getItem(storageConst.LIGHT_TOKEN)  
+    let currency = localStorage.getItem(storageConst.LEGAL_DETAIL)
 
     return {
         'Company-ID': configData.COMPANY_ID,
