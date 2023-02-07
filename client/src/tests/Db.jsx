@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import React from 'react'
-import { addChainDb, addWalletDb, clearDatabaseDb, databaseInstance, deleteAllChainsDb, getAllChainsDb, getChainDetailDb, getChainSymbolDb, getChainWalletDb } from '../utils/db/db'
+import { addChainDb, addWalletDb, clearDatabaseDb, databaseInstance, deleteAllChainsDb, getAllChainsDb, getChainDetailDb, getChainSymbolDb, getChainWalletDb } from '../database/db.js'
 
 const Container = styled.div``
 const Button = styled.button``
@@ -87,7 +87,7 @@ const handleClearDb = async() => {
 }
   return (
     <Container>
-        <Button onClick={() => handleGetChainWallet("Eth")}>Button</Button>
+        <Button onClick={() => handleAddChain(Wallet)}>Button</Button>
     </Container>
   )
 }
