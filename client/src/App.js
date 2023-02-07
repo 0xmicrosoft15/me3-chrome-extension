@@ -26,8 +26,8 @@ function App() {
   return (
     <Wrapper>
     <Container>
-      <Db/>
-      {/* <Wallet/> */}
+      {/* <Db/> */}
+      <Wallet/>
       {/* <SignIn/> */}
       {/* <Topbar/>
         <Routes>
