@@ -1,23 +1,66 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+node_modules/
+.cache/
 
-# testing
-/coverage
+# Sourcemaps
+*js.map
 
-# production
-/build
+# package-lock
+*package-lock.json
+# *pnpm-lock.yaml
+*yarn.lock
 
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# webstorm
+*.idea/
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Lerna Debug
+lerna-debug.log
+*pnpm-debug.log
+
+*.env
+!.gitlab-ci.*.env
+
+data/
+dist/
+
+# dependencies
+
+# Istanbul Code coverage
+.nyc_output/
+coverage/
+
+# Swagger File
+*.swagger.yaml
+
+# Do not commit build files for backend
+**/backend/*/build/
+
+# MacOS files
+**/.DS_Store
+**/.profraw
+
+# Avoids merge conflicts all the time
+**/.tsbuildinfo
+
+# Do not commit lib files for libraries
+**/libraries/*/lib/
+
+# Output from test:ci
+**/test-results.xml
+
+# eslint cache
+**/.eslintcache
+
+# vscode settings
+.vscode
+
+# Ignore Docker Files
+docker/dynamodb/shared-local-instance.db
+
+# Ignore PDF FILES
+*.pdf
+
+# Ignore credentials for publishing to npm
+**/.npmrc
